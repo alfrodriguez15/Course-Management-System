@@ -2,8 +2,19 @@ import React from 'react'
 import Navbar from '../components/Navbar'
 import './Home.css'
 import Button from 'react-bootstrap/Button';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
+    const navigate = useNavigate();
+
+    function handleClickSign() {
+        navigate("/signin");
+    }
+
+    function handleClickLearn() {
+        navigate("/services");
+    }
+
     return (
         <>
             <Navbar />
@@ -19,8 +30,8 @@ function Home() {
                         DARS, Timetable of Classes, University DataCommons, etc.
                     </p>
                     <div className='home-buttons-container'>
-                        <Button className='home-button' variant="primary">Learn More</Button>{' '}
-                        <Button className='home-button' variant="primary">Sign In</Button>{' '}
+                        <Button className='home-button' variant="primary" onClick={handleClickLearn}>Learn More</Button>{' '}
+                        <Button className='home-button' variant="primary" onClick={handleClickSign}>Sign In</Button>{' '}
                     </div>
                 </div>
 
