@@ -1,19 +1,16 @@
-import React from 'react'
-import Navbar from '../components/Navbar'
-import './Home.css'
+import React from 'react';
+import Navbar from '../components/Navbar';
+import './Home.css';
 import Button from 'react-bootstrap/Button';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom'; // Import Link
+// import { useNavigate } from 'react-router-dom'; // You don't need this if you're using Link
 
 function Home() {
-    const navigate = useNavigate();
+    // const navigate = useNavigate(); // Remove this if you're using Link
 
-    function handleClickSign() {
-        navigate("/signin");
-    }
-
-    function handleClickLearn() {
-        navigate("/services");
-    }
+    // function handleClickSign() {
+    //     navigate("/signin");
+    // }
 
     return (
         <>
@@ -30,14 +27,17 @@ function Home() {
                         DARS, Timetable of Classes, University DataCommons, etc.
                     </p>
                     <div className='home-buttons-container'>
-                        <Button className='home-button' variant="primary" onClick={handleClickLearn}>Learn More</Button>{' '}
-                        <Button className='home-button' variant="primary" onClick={handleClickSign}>Sign In</Button>{' '}
+                        <Link to="/login">
+                            <Button className='home-button' variant="primary">Login</Button>
+                        </Link>
+                        <Link to="/services">
+                            <Button className='home-button' variant="primary">Learn More</Button>
+                        </Link>
                     </div>
                 </div>
-
             </div>
         </>
     )
 }
 
-export default Home
+export default Home;
