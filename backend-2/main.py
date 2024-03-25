@@ -10,6 +10,15 @@ connection_string = f"mongodb+srv://course-ms:{password}@course-ms.u8bdkip.mongo
 client = MongoClient(connection_string)
 
 course_db = client.course_db
+test_user = {
+    "name": "Jenny Tran",
+    "email": "jennynt@vt.edu",
+    "password": "password123",
+    "role": "student",
+    "graduation_date": "May 2024",
+    "major": "Computer Science",
+    "schedules": []
+}
 
 def insert_user_document(user_data):
     user_collection = course_db.users
@@ -33,5 +42,6 @@ def get_course_crn(term_year, semester, crn):
 
 # course = get_crn('2024', Semester.SPRING, '21892')
 course = get_course_crn('2024', Semester.SPRING, '21892')
+# insert_user_document(test_user)
 print(course)
 # update_user_document("jenh@vt.edu", {"name": "Jen Hoang", "password": "password1234"})
