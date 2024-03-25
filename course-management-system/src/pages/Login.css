@@ -1,0 +1,50 @@
+.login {
+    margin: 50px auto;
+    padding: 20px;
+    max-width: 400px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .login-title {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .login-input {
+    margin-bottom: 20px;
+  }
+  
+  .login-input input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .login-buttons-container {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .signup-button-container {
+    margin-top: 10px;
+    text-align: center;
+  }
+  
+  .home-button {
+    flex: 1;
+  }
+
+  .login-button {
+    margin-right: 10px; /* Add margin between buttons */
+    background-color: gray; /* Change button color */
+    border-color: gray; /* Change button border color */
+  }
+  
+  .login-button:hover {
+    background-color: rgb(153, 152, 152); /* Change button color on hover */
+    border-color: rgb(153, 152, 152); /* Change button border color on hover */
+  }

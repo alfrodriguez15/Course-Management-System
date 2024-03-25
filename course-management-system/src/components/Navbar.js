@@ -27,7 +27,7 @@ function Navbar() {
                 {/* Sign in */}
                 <li className='nav-item'>
                     <Link to='/signin' className='nav-link'>
-                        Sign In
+                        Login
                     </Link>
                 </li>
             </ul>
