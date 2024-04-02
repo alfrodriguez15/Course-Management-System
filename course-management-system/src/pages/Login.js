@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import Navbar from '../components/Navbar'
 import './Login.css'
 import Button from 'react-bootstrap/Button';
@@ -11,7 +12,14 @@ function Login() {
     const [password, setPassword] = useState('');
 
     function handleClickSign() {
-        navigate("/signin");
+        axios.post('http://localhost:5000/login', { username, password })
+        .then(response => {
+            console.log(response.data); // Log the response from the backend
+            // Optionally, you can handle the response here, such as redirecting the user if login is successful
+        })
+        .catch(error => {
+            console.error(error); // Log any errors that occur during the request
+        });
     }
 
     /**
