@@ -1,37 +1,133 @@
+
+/* Homepage description, title, buttons, overall layout */
+
 .home {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: rgb(255, 255, 255);
 }
 
-.home-title {
-    display: block;
-    text-align: center;
-    text-decoration: none;
-    padding: 2rem;
-    width: 50%;
-    margin: 0 auto;
+
+
+/* Homepage image */
+
+.homepage-image {
+  width: 100%;
+  height: 70vh; /* Set the height to 100% of the viewport height */
+  object-fit: cover;
+  /*filter: blur(3px); */
+  margin-bottom: 50px;
 }
 
-.title-fragment {
-    margin-bottom: 0;
+
+/* Styles for the container that holds the text */
+.text-container {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1; /* Ensure the text appears above the image */
+  text-align: center;
 }
 
-.home-description-text {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 2rem;
-    padding-top: 0;
-    width: 80vh;
-    margin: 0 auto;
+/* Styles for the text */
+.title {
+  color: white;
+  font-size: 3rem;
+  font-weight: bold;
+  font-family: 'Roboto', sans-serif;
 }
+
+.title-2 {
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  font-family: 'Roboto', sans-serif;
+}
+
+
 
 .home-buttons-container {
-    display: flex;
-    padding: 1rem;
-    gap: 2rem;
+  display: flex;
+  padding: 1rem;
+  gap: 2rem;
+}
+
+
+.home-button {
+  flex: 1;
+  background-color: rgb(134, 31, 65);
+  margin-bottom: 20px;
+}
+
+
+
+.offer-section {
+  margin-top: 10px; /* Adjust margin as needed */
+}
+
+.offer-section h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+
+
+
+/* Homepage icons */
+
+
+.icon-img-container {
+  display: flex;
+  justify-content: space-around; /* Adjust alignment as needed */
+  align-items: flex-end;
+
+  margin-bottom: 60px;
+  /* adjust space between icon and text */
+}
+
+.icon-img {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 400px;
+  /* Adjust the spacing between icons */
+}
+
+.icon-img:last-child {
+  margin-right: 0;
+  margin-bottom: 10px;
+  /* Remove margin for the last icon to prevent extra space */
+}
+
+
+.icon-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 350px;
+  /* Adjust the spacing between icons */
+}
+
+.icon-text:last-child {
+  margin-right: 0;
+  margin-bottom: 10px;
+  /* Remove margin for the last icon to prevent extra space */
+}
+
+.icon-texts-section {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.icon-texts-section .icon-text {
+  width: 200px; /* Adjust width as needed */
+}
+
+.icon-texts-section .icon-text p:first-child {
+  font-weight: bold; /* Make the first paragraph bold */
 }

@@ -1,3 +1,27 @@
+.split-screen {
+  display: flex;
+  height: 100vh;
+}
+
+.left,
+.right {
+  flex: 1;
+  height: 100%;
+  border-right: 1px solid #ccc; /* Thin line down the middle */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.left {
+  background-color: #f2f2f2; /* Background color for the left side */
+}
+
+.right {
+  background-color: #fff; /* Background color for the right side */
+}
+
+/* Additional styling for login and signup sections can be added here */
+
 .login {
     margin: 50px auto;
     padding: 20px;
@@ -29,10 +53,6 @@
     justify-content: space-between;
   }
 
-  .signup-button-container {
-    margin-top: 10px;
-    text-align: center;
-  }
   
   .home-button {
     flex: 1;
@@ -48,3 +68,46 @@
     background-color: rgb(153, 152, 152); /* Change button color on hover */
     border-color: rgb(153, 152, 152); /* Change button border color on hover */
   }
+
+
+
+  .signup {
+    margin: 50px auto;
+    padding: 20px;
+    max-width: 600px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+
+  .signup-title {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .signup-button {
+    margin-right: 10px; /* Add margin between buttons */
+    background-color: gray; /* Change button color */
+    border-color: gray; /* Change button border color */
+  }
+  
+  .signup-button:hover {
+    background-color: rgb(153, 152, 152); /* Change button color on hover */
+    border-color: rgb(153, 152, 152); /* Change button border color on hover */
+  }
+
+  .signup-form {
+    padding: 20px;
+}
+
+.signup-form input,
+.signup-form select {
+    margin-bottom: 10px;
+    width: 100%;
+    padding: 10px;
+}
+
+.signup-form .signup-buttons-container {
+    text-align: center;
+    margin-top: 20px;
+}
