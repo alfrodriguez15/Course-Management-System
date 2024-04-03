@@ -58,6 +58,7 @@ function Navbar() {
                 </ul>
             </nav>
         </>
+
     )
 }
 
