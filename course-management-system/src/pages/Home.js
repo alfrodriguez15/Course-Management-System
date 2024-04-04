@@ -4,8 +4,6 @@ import './Home.css';
 import Button from 'react-bootstrap/Button';
 import { Link, useNavigate } from 'react-router-dom';
 
-
-
 import homepageImage from '../images/homepage.jpg';
 import icon1 from '../images/stud-icon.png';
 import icon2 from '../images/prof-icon.png';
@@ -44,9 +42,9 @@ function Home() {
                     <p className="title-2">Manage your courses and schedules with ease.</p>
                 </div>
 
-
-
-
+                <div className="offer-section">
+                    <h2>What We Offer</h2>
+                </div>
 
                 <div className='icon-img-container'>
                     <div className='icon-img'>
@@ -60,39 +58,22 @@ function Home() {
                     </div>
                 </div>
 
-
-                <div class="icon-texts-section">
-                    <div class="icon-text">
+                <div className="icon-texts-section">
+                    <div className="icon-text">
                         <p>Student</p>
                         <p>Manage your courses and schedules as a student.</p>
                     </div>
-                    <div class="icon-text">
+                    <div className="icon-text">
                         <p>Professor</p>
                         <p>Easily manage your courses and communicate with students.</p>
                     </div>
-                    <div class="icon-text">
+                    <div className="icon-text">
                         <p>Administrator</p>
                         <p>Effortlessly oversee course management system and feedback</p>
                     </div>
                 </div>
 
             </div>
-
-
-
-            <div className="offer-section">
-                <h2>What We Offer</h2>
-            </div>
-
-
-            <div className='home-buttons-container'>
-                <Link to="/login">
-                    <Button className='home-button' variant="primary">Login</Button>
-                </Link>
-            </div>
-
-
-
 
         </>
     );

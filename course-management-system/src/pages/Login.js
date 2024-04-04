@@ -6,10 +6,11 @@ import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
 
 function Login() {
-    const navigate = useNavigate();
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [loginError, setLoginError] = useState('');
+    const [signupError, setSignupError] = useState('');
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -18,22 +19,47 @@ function Login() {
     const [role, setRole] = useState('');
     const [degree, setDegree] = useState('');
     const [education, setEducation] = useState('');
-    const [graduationDate, setGraduationDate] = useState('');
+    const [graduationDate, setGraduationDate] = useState(''); // Set the default value to the current month and year
 
 
     function handleClickSign() {
-        axios.post('http://localhost:5000/login', { username, password })
-        .then(response => {
-            console.log(response.data); // Log the response from the backend
-            // Optionally, you can handle the response here, such as redirecting the user if login is successful
+
+        axios.post('http://localhost:5000/auth', {
+            username,
+            password
         })
-        .catch(error => {
-            console.error(error); // Log any errors that occur during the request
-        });
+            .then(response => {
+                console.log(response.data); // Log the response from the backend
+                // Optionally, you can handle the response here, such as redirecting the user if login is successful
+            })
+            .catch(error => {
+                console.error(error); // Log any errors that occur during the request
+                if (error.response && error.response.data) {
+                    setLoginError(error.response.data.message); // Set the error message in state
+                }
+            });
     }
 
     function handleClickSignUp() {
-        navigate("/signup");
+
+        axios.post('http://localhost:5000/auth', {
+            name,
+            email,
+            password: newPassword,
+            confirmPassword,
+            role,
+            degree,
+            education,
+            graduationDate  // Use the formatted graduationDate
+        })
+            .then(response => {
+                console.log(response.data); // Log the response from the backend
+                // Optionally, you can handle the response here, such as redirecting the user if sign-up is successful
+            })
+            .catch(error => {
+                console.error(error); // Log any errors that occur during the request
+                setSignupError(error.response.data.message); // Set the error message in state
+            });
     }
 
     return (
@@ -60,6 +86,7 @@ function Login() {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </p>
+                        {loginError && <p className="error">{loginError}</p>}
                         <div className='login-buttons-container'>
                             <Button className='login-button' variant="primary" onClick={handleClickSign}>Login</Button>{' '}
                         </div>
@@ -128,14 +155,17 @@ function Login() {
                                 <option value="NS&Env">College of Natural Resources and Environment</option>
                                 <option value="Sscience">College of Science</option>
                             </select>
+
+                            <span>Graduation Date: </span>
                             <input
-                                type="date"
-                                placeholder="Graduation Date"
+                                type="month"
+                                placeholder="YYYY-MM"
                                 value={graduationDate}
                                 onChange={(e) => setGraduationDate(e.target.value)}
                             />
+
                         </p>
-                        {/* Your sign-up form components go here name, email, password, role, major, grad date */}
+                        {signupError && <p className="error">{signupError}</p>}
                         <div className='signup-buttons-container'>
                             <Button className='signup-button' variant="primary" onClick={handleClickSignUp}>Sign Up</Button>{' '}
                         </div>
