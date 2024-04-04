@@ -24,7 +24,7 @@ function Login() {
 
     function handleClickSign() {
 
-        axios.post('http://localhost:5000/auth', {
+        axios.post('http://localhost:5000/login', {
             username,
             password
         })
@@ -42,7 +42,7 @@ function Login() {
 
     function handleClickSignUp() {
 
-        axios.post('http://localhost:5000/auth', {
+        axios.post('http://localhost:5000/signup', {
             name,
             email,
             password: newPassword,
