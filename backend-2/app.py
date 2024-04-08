@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify, session
 from flask_cors import CORS, cross_origin
+from flask_jsonpify import jsonpify
 from pymongo import MongoClient
+from parse_udc import parse_data
 import os
 
 app = Flask(__name__)
@@ -66,6 +68,20 @@ def login():
         return jsonify({"message": "Login successful"}), 200
     else:
         return jsonify({"message": "Invalid username or password"}), 401
+    
+@app.route("/analytics", methods=["POST"])
+@cross_origin()
+def getAnalytics():
+    data = request.json
+    years = data.get("years")
+    terms = data.get("terms")
+    subject = data.get("subject")
+    course = data.get("course")
+
+    df = parse_data(years, terms, subject, course)
+
+    df_list = df.values.tolist()
+    return jsonpify(df_list)
 
 if __name__ == "__main__":
     app.secret_key = os.environ.get("SECRET_KEY")

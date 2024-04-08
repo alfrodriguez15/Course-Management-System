@@ -5,6 +5,7 @@ import Home from './pages/Home.js';
 import Login from './pages/Login.js';
 import About from './pages/About.js';
 import Services from './pages/Services.js';
+import Analytics from './pages/Analytics.js';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Route path="/services" element={<Services />}></Route>
       <Route path="/login" element={<Login />}></Route>
       <Route path="/signup" element={<h1>signup</h1>}></Route>
+      <Route path="/analytics" element={<Analytics />}></Route>
     </Routes>
   )
 }
