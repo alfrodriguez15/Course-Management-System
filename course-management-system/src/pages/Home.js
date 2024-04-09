@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
+//import Sidebar from './student/components/Sidebar';
 import './Home.css';
 import Button from 'react-bootstrap/Button';
 import { Link, useNavigate } from 'react-router-dom';
@@ -12,23 +13,6 @@ import icon3 from '../images/admin-icon.png';
 function Home() {
 
 
-    /**
-     *     const navigate = useNavigate(); // Use useNavigate to get the navigate function
-
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [name, setName] = useState('');
-
-    function handleClickLogin() {
-        // Implement your login logic here
-        // For demonstration purposes, I'm just redirecting to /login after clicking the login button
-        navigate("/login");
-    }
-
-    function handleClickSignUp() {
-        navigate("/signup");
-    }
-     */
 
 
     return (
