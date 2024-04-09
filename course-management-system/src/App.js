@@ -8,7 +8,7 @@ import Services from './pages/Services.js';
 import NewUser from './pages/student/NewUser.js';
 import Student from './pages/student/Student.js';
 import Schedule from './pages/student/Schedule.js';
-import Courses from './pages/student/components/CollapsibleTable.js';
+import Analytics from './pages/Analytics.js';
 
 function App() {
   return (
@@ -21,6 +21,8 @@ function App() {
       <Route path="/student" element={<Student />}></Route>
       <Route path="/schedule" element={<Schedule />}></Route>
       <Route path="/courses" element={<Courses />}></Route>
+      <Route path="/signup" element={<h1>signup</h1>}></Route>
+      <Route path="/analytics" element={<Analytics />}></Route>
     </Routes>
   )
 }
