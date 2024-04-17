@@ -45,3 +45,9 @@ def sort_data(data, year=False, sem=False, subject=False, course=False):
 
 def get_course_no_list(subject):
     filtered_list = data[data['Subject'] == subject].unique()
+
+def search_by_course_prof(subject, course, prof):
+    last_name = prof.split(' ')[-1]
+    filtered_data = data[(data['Subject'] == subject) & (data['Course No.'] == course) & (data['Instructor'] == last_name)]
+    
+    return filtered_data

@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, session
 from flask_cors import CORS, cross_origin
 from flask_jsonpify import jsonpify
 from pymongo import MongoClient
-from parse_udc import parse_data
+from parse_udc import search_by_course_prof
 from vtt import *
 import os
 
@@ -122,19 +122,32 @@ def courses():
     else:
         return jsonify({"message": "Course not found. Make sure your search options are correct."}), 404
 
+# @app.route("/analytics", methods=["POST"])
+# @cross_origin()
+# def getAnalytics():
+#     data = request.json
+#     years = data.get("years")
+#     terms = data.get("terms")
+#     subject = data.get("subject")
+#     course = data.get("course")
+
+#     df = parse_data(years, terms, subject, course)
+
+#     df_list = df.values.tolist()
+#     return jsonpify(df_list)
+
 @app.route("/analytics", methods=["POST"])
 @cross_origin()
 def getAnalytics():
     data = request.json
-    years = data.get("years")
-    terms = data.get("terms")
     subject = data.get("subject")
-    course = data.get("course")
+    code = data.get("code")
+    prof = data.get("professor")
 
-    df = parse_data(years, terms, subject, course)
+    df = search_by_course_prof(subject, int(code), prof)
 
     df_list = df.values.tolist()
-    return jsonpify(df_list)
+    return jsonpify([sublist[:2] + sublist[6:20] for sublist in df_list])
 
 if __name__ == "__main__":
     app.secret_key = os.environ.get("SECRET_KEY")

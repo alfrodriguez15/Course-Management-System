@@ -12,9 +12,29 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Collapse from '@mui/material/Collapse';
+import axios from 'axios';
 
 function Row({ course }) {
     const [open, setOpen] = useState(false);
+    const [data, setData] = useState([]);
+
+    function handleDisplayDetails() {
+        setOpen(!open);
+        const subject = course.subject;
+        const code = course.code;
+        const professor = course.professor;
+        axios.post('http://localhost:5000/analytics', { subject, code, professor })
+            .then(response => {
+                // console.log(response.data); // Log the response from the backend
+                // Optionally, you can handle the response here, such as redirecting the user if login is successful
+                let newData = []
+                newData.push(response.data);
+                setData(newData);
+            })
+            .catch(error => {
+                console.error(error); // Log any errors that occur during the request
+            });
+    }
 
     return (
         <>
@@ -23,7 +43,7 @@ function Row({ course }) {
                     <IconButton
                         aria-label="expand row"
                         size="small"
-                        onClick={() => setOpen(!open)}
+                        onClick={handleDisplayDetails}
                     >
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                     </IconButton>
@@ -52,6 +72,8 @@ function Row({ course }) {
                                 <Table size="small" aria-label="purchases">
                                     <TableHead>
                                         <TableRow>
+                                            <TableCell align="right">Year</TableCell>
+                                            <TableCell align="right">Term</TableCell>
                                             <TableCell align="right">GPA</TableCell>
                                             <TableCell align="right">A(%)</TableCell>
                                             <TableCell align="right">A-(%)</TableCell>
@@ -69,7 +91,15 @@ function Row({ course }) {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-
+                                        {data.length > 0 && data[0].map((element, i) => {
+                                            return <TableRow>
+                                                {
+                                                    element.map((e, i) => {
+                                                        return <TableCell align="right">{e}</TableCell>
+                                                    })
+                                                }
+                                            </TableRow>
+                                        })}
                                     </TableBody>
                                 </Table>
                             </Box>
