@@ -5,6 +5,10 @@ import Button from 'react-bootstrap/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import { useLocation } from 'react-router-dom';
+import videoBg from './video/schedule_clip.mp4';
+import icon1 from '../../images/stud-icon.png';
+import icon2 from '../../images//prof-icon.png';
+import icon3 from '../../images/admin-icon.png';
 
 function Student(props) {
     const location = useLocation(); // Get the location object
@@ -25,23 +29,21 @@ function Student(props) {
     }, [location.state]);
 
     return (
-        <div className="student-page">
-            <Sidebar show={showSidebar} toggleSidebar={toggleSidebar} />
-            <div className={showSidebar ? "content-with-sidebar" : "content"}>
-                <h1>Welcome {userData.name} to the student page!</h1>
-                <h1>Email: {userData.email}</h1>
-                <h1>Role: {userData.role}</h1>
-                <h1>Degree: {userData.degree}</h1>
-                <h1>Education: {userData.education}</h1>
-                <h1>Graduation Date: {userData.graduation_date}</h1>
-                {/* <Link to="/schedule">
-                    <Button variant="primary">View Schedule</Button>
-                </Link>
-                <Link to="/courses">
-                    <Button variant="primary">View Courses</Button>
-                </Link> */}
+        <>
+            <Sidebar />
+            <div className="student-page">
+                <div className="video-container">
+                    <video src={videoBg} autoPlay loop muted className="video" />
+                </div>
+                <div className="content">
+                    <h1>Welcome {userData.name} to the student page!</h1>
+                    <p>Navigate our resourses using the Sidebar Menu</p>
+                </div>
+
+        
             </div>
-        </div>
+            
+        </>
     );
 }
 
