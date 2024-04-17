@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
 
 function Login() {
+    const navigate = useNavigate();
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -21,7 +22,6 @@ function Login() {
     const [education, setEducation] = useState('');
     const [graduationDate, setGraduationDate] = useState(''); // Set the default value to the current month and year
 
-
     function handleClickSign() {
 
         axios.post('http://localhost:5000/login', {
@@ -30,7 +30,7 @@ function Login() {
         })
             .then(response => {
                 console.log(response.data); // Log the response from the backend
-                // Optionally, you can handle the response here, such as redirecting the user if login is successful
+                navigate('/student', { state: { userData: response.data } });
             })
             .catch(error => {
                 console.error(error); // Log any errors that occur during the request
@@ -54,7 +54,7 @@ function Login() {
         })
             .then(response => {
                 console.log(response.data); // Log the response from the backend
-                // Optionally, you can handle the response here, such as redirecting the user if sign-up is successful
+                navigate('/student', { state: { userData: response.data } });
             })
             .catch(error => {
                 console.error(error); // Log any errors that occur during the request
@@ -67,7 +67,6 @@ function Login() {
             <Navbar />
             <div className='split-screen'>
                 <div className='left'>
-
                     <div className='login'>
                         <div className='login-title'>
                             <h1 className='title-fragment'>Login</h1>
@@ -91,10 +90,8 @@ function Login() {
                             <Button className='login-button' variant="primary" onClick={handleClickSign}>Login</Button>{' '}
                         </div>
                     </div>
-
                 </div>
                 <div className='right'>
-
                     <div className='signup'>
                         <div className='signup-title'>
                             <h1 className='title-fragment'>Sign Up</h1>
@@ -163,7 +160,6 @@ function Login() {
                                 value={graduationDate}
                                 onChange={(e) => setGraduationDate(e.target.value)}
                             />
-
                         </p>
                         {signupError && <p className="error">{signupError}</p>}
                         <div className='signup-buttons-container'>

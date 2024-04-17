@@ -24,7 +24,7 @@ export const SidebarData = [
   },
   {
     title: 'Courses',
-    path: '/',
+    path: '/courses',
     icon: <IoIcons.IoIosApps />,
     cName: 'side-text'
   },

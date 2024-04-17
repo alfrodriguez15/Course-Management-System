@@ -3,10 +3,11 @@ from flask_cors import CORS, cross_origin
 from flask_jsonpify import jsonpify
 from pymongo import MongoClient
 from parse_udc import parse_data
+from vtt import *
 import os
 
 app = Flask(__name__)
-CORS(app, origins="http://localhost:3000")
+CORS(app, origins=["http://localhost:3000"])
 
 password = os.environ.get("MONGODB_PWD")
 connection_string = f"mongodb+srv://course-ms:{password}@course-ms.u8bdkip.mongodb.net/?retryWrites=true&w=majority&appName=course-ms"
@@ -61,14 +62,66 @@ def login():
     
     # Query the database to find the user by username and password for login
     user = user_collection.find_one({"email": username, "password": password})
+    user["_id"] = str(user["_id"])
 
     if user:
         # Set user session if login is successful
         session["username"] = username
-        return jsonify({"message": "Login successful"}), 200
+        return jsonify(user), 200
     else:
         return jsonify({"message": "Invalid username or password"}), 401
+
+# Route for finding courses
+@app.route("/courses", methods=["POST"])
+@cross_origin()
+def courses():
+    data = request.json
+    year = data.get("selectYear")
+    semester = Semester[data.get("selectSemester")]
+    campus = Campus[data.get("selectCampus")]
+    pathway = Pathway[data.get("selectPathway")]
+    subject = data.get("selectSubject")
+    sectionType = SectionType[data.get("selectSectionType")]
+    code = data.get("selectCode")
+    crn = data.get("selectCrn")
+    status = Status[data.get("selectStatus")]
+    modality = Modality[data.get("selectModality")]
     
+    course = search_timetable(year, semester, campus, pathway, subject, sectionType, code, crn, status, modality)
+    if course:
+        course_data = [c._course_data for c in course]
+        for c in course_data:
+            
+            semester_str = c.get("semester").name
+            c["semester"] = semester_str
+            
+            sectionType_str = c.get("section_type").name
+            c["section_type"] = sectionType_str
+            
+            modality = c.get("modality")
+            if modality:
+                modality_str = modality.name
+                c["modality"] = modality_str
+            else:
+                c["modality"] = ""
+                
+            schedule_keys = list(c.get("schedule").keys())
+            days_list = []
+            new_dict = {"Days": [], "Begin": "", "End": "", "Location": ""}
+            for s in schedule_keys:
+                days_list.append(s.name)
+                value = c.get("schedule")[s]
+                for v in value:
+                    new_dict["Begin"] = v[0]
+                    new_dict["End"] = v[1]
+                    new_dict["Location"] = v[2]
+            new_dict["Days"] = days_list
+            c["schedule"] = new_dict
+            
+        return jsonify(course_data), 200
+    else:
+        return jsonify({"message": "Course not found. Make sure your search options are correct."}), 404
+
 @app.route("/analytics", methods=["POST"])
 @cross_origin()
 def getAnalytics():
