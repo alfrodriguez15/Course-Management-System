@@ -16,7 +16,8 @@ import axios from 'axios';
 
 function Row({ course }) {
     const [open, setOpen] = useState(false);
-    const [data, setData] = useState([]);
+    const [udcData, setUdcData] = useState([]);
+    const [rmpData, setRmpData] = useState([]);
 
     function handleDisplayDetails() {
         setOpen(!open);
@@ -25,11 +26,14 @@ function Row({ course }) {
         const professor = course.professor;
         axios.post('http://localhost:5000/analytics', { subject, code, professor })
             .then(response => {
-                // console.log(response.data); // Log the response from the backend
-                // Optionally, you can handle the response here, such as redirecting the user if login is successful
-                let newData = []
-                newData.push(response.data);
-                setData(newData);
+                setUdcData(response.data);
+            })
+            .catch(error => {
+                console.error(error); // Log any errors that occur during the request
+            });
+        axios.post('http://localhost:5000/rmp', { subject, code, professor })
+            .then(response => {
+                setRmpData(response.data);
             })
             .catch(error => {
                 console.error(error); // Log any errors that occur during the request
@@ -91,7 +95,7 @@ function Row({ course }) {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {data.length > 0 && data[0].map((element, i) => {
+                                        {udcData.map((element, i) => {
                                             return <TableRow>
                                                 {
                                                     element.map((e, i) => {
@@ -110,16 +114,20 @@ function Row({ course }) {
                                 <Table size="small" aria-label="purchases">
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell align="right">Name</TableCell>
-                                            <TableCell align="right">Teaches</TableCell>
-                                            <TableCell align="right">At</TableCell>
-                                            <TableCell align="right">Overall Quality</TableCell>
+                                            <TableCell align="right">Overall Quality (out of 5)</TableCell>
+                                            <TableCell align="right">Level of Difficulty (out of 5)</TableCell>
                                             <TableCell align="right">Would take again (%)</TableCell>
-                                            <TableCell align="right">Level of Difficulty</TableCell>
+                                            <TableCell align="right">Number of Ratings</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-
+                                        <TableRow>
+                                            {
+                                                rmpData.map((e, i) => {
+                                                    return <TableCell align="right">{e}</TableCell>
+                                                })
+                                            }
+                                        </TableRow>
                                     </TableBody>
                                 </Table>
                             </Box>
