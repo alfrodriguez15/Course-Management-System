@@ -5,9 +5,13 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import CollapsibleTable from './CollapsibleTable'; // Import your CollapsibleTable component here
+import Button from 'react-bootstrap/esm/Button';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
+
+  function handleClickFind() {
+  }
 
   return (
     <div
@@ -17,6 +21,16 @@ function CustomTabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Button
+          className='find-button'
+          variant="primary"
+          style={{ margin: '10px', backgroundColor: 'orange' }}
+          onClick={handleClickFind}
+        >
+          Edit Schedule
+        </Button>
+      </div>
       {value === index && (
         <Box sx={{ p: 3 }}>
           <Typography>{children}</Typography>
@@ -47,7 +61,7 @@ export default function BasicTabs() {
   };
 
   return (
-    
+
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
@@ -60,11 +74,11 @@ export default function BasicTabs() {
         <CollapsibleTable /> {/* Render the CollapsibleTable component inside Tab 1 */}
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-      <CollapsibleTable />
+        <CollapsibleTable />
         {/* Render additional components or content inside Tab 2 if needed */}
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-      <CollapsibleTable />
+        <CollapsibleTable />
         {/* Render additional components or content inside Tab 3 if needed */}
       </CustomTabPanel>
     </Box>

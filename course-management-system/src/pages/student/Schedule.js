@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import BasicTabs from './components/Tab.js';
 import TextField from '@mui/material/TextField';
+import { Box } from '@mui/material';
+import CoursesPage from './Courses.js';
 
 function SchedulePage() {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -11,28 +13,16 @@ function SchedulePage() {
     setShowSidebar(!showSidebar);
   };
 
-
-  //store value inputted
-  const handleSearchChange = (event) => {
-    setSearchValue(event.target.value);
-  };
+  function handleClickEdit() {
+  }
 
   return (
     <div className="schedule-page">
       <Sidebar show={showSidebar} toggleSidebar={toggleSidebar} />
       <div className={showSidebar ? "content-with-sidebar" : "content"}>
-        <BasicTabs />
-        <div className="search-bar">
-          <TextField
-            id="search"
-            label="Search"
-            variant="outlined"
-            size="small"
-            fullWidth
-            value={searchValue}
-            onChange={handleSearchChange}
-          />
-        </div>
+        <Box>
+          <BasicTabs />
+        </Box>
       </div>
     </div>
   );
