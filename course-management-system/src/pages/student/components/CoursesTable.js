@@ -72,7 +72,7 @@ function Row({ course }) {
                                 <Table size="small" aria-label="purchases">
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell align="right">Year</TableCell>
+                                            <TableCell align="right">Academic Year</TableCell>
                                             <TableCell align="right">Term</TableCell>
                                             <TableCell align="right">GPA</TableCell>
                                             <TableCell align="right">A(%)</TableCell>
