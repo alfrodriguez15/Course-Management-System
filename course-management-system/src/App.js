@@ -11,6 +11,7 @@ import Schedule from './pages/student/Schedule.js';
 import Analytics from './pages/Analytics.js';
 import Ratings from './pages/student/Ratings.js';
 import Professors from './pages/student/Professors.js';
+import Courses from './pages/student/Courses.js';
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
       <Route path="/newuser" element={<NewUser />}></Route>
       <Route path="/student" element={<Student />}></Route>
       <Route path="/schedule" element={<Schedule />}></Route>
-      
+      <Route path="/Courses" element={<Courses />}></Route>
       <Route path="/signup" element={<h1>signup</h1>}></Route>
       <Route path="/analytics" element={<Analytics />}></Route>
       <Route path = "/ratings" element = {<Ratings />}></Route> 
