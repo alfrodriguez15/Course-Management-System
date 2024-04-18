@@ -95,7 +95,7 @@ function Row({ course }) {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {udcData.map((element, i) => {
+                                        {udcData && udcData.map((element, i) => {
                                             return <TableRow>
                                                 {
                                                     element.map((e, i) => {
@@ -123,7 +123,7 @@ function Row({ course }) {
                                     <TableBody>
                                         <TableRow>
                                             {
-                                                rmpData.map((e, i) => {
+                                                rmpData && rmpData.map((e, i) => {
                                                     return <TableCell align="right">{e}</TableCell>
                                                 })
                                             }
