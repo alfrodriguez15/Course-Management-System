@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
 import { Typography, Box } from '@mui/material';
 import Rating from '@mui/material/Rating';
-import Sidebar from './components/Sidebar';
+import Sidebar from '../components/Sidebar';
 import StarIcon from '@mui/icons-material/Star';
 import { useTheme } from '@mui/material/styles';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -14,9 +13,8 @@ import { styled } from '@mui/material/styles';
 import RadioGroup, { useRadioGroup } from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
-//import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
-
+import * as React from 'react';
 
 //for select component layout
 const ITEM_HEIGHT = 48;

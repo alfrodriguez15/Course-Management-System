@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import Sidebar from './components/Sidebar';
-import BasicTabs from './components/Tab.js';
+import Sidebar from '../components/Sidebar.js';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import CoursesTable from './components/CoursesTable';
+import CoursesTable from '../components/CoursesTable.js';
+
 
 function CoursesPage() {
     const [showSidebar, setShowSidebar] = useState(false);

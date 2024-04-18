@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import CollapsibleTable from './CollapsibleTable'; // Import your CollapsibleTable component here
 import Button from 'react-bootstrap/esm/Button';
+import { Link } from 'react-router-dom';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -22,14 +23,15 @@ function CustomTabPanel(props) {
       {...other}
     >
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <Button
-          className='find-button'
-          variant="primary"
-          style={{ margin: '10px', backgroundColor: 'orange' }}
-          onClick={handleClickFind}
-        >
-          Edit Schedule
-        </Button>
+      <Link to="/editSchedule">
+          <Button
+            className='find-button'
+            variant="primary"
+            style={{ margin: '10px', backgroundColor: 'orange' }}
+          >
+            Edit Schedule
+          </Button>
+        </Link>
       </div>
       {value === index && (
         <Box sx={{ p: 3 }}>

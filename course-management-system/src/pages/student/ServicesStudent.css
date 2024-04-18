@@ -1,0 +1,13 @@
+.services-container {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    margin: 0 auto;
+}
+
+.services-title {
+    display: block;
+    text-align: center;
+    padding: 2rem;
+    border-bottom: 2px solid rgba(117, 120, 123, 0.5);
+}

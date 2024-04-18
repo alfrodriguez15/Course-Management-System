@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import Sidebar from './components/Sidebar';
-import BasicTabs from './components/Tab.js';
-import TextField from '@mui/material/TextField';
-import { Box } from '@mui/material';
+import Sidebar from '../components/Sidebar.js';
+import BasicTabs from '../components/Tab.js';
+import { Box, IconButton } from '@mui/material';
+import HelpIcon from '@mui/icons-material/Help';
 import CoursesPage from './Courses.js';
 
 function SchedulePage() {
@@ -14,6 +14,7 @@ function SchedulePage() {
   };
 
   function handleClickEdit() {
+    // Implement your edit functionality here
   }
 
   return (
@@ -23,7 +24,22 @@ function SchedulePage() {
         <Box>
           <BasicTabs />
         </Box>
+        
       </div>
+      {/* "Need help" icon button */}
+      <IconButton
+        style={{
+          position: 'fixed',
+          bottom: 20,
+          right: 20,
+          backgroundColor: '#fff',
+        }}
+        onClick={() => {
+          // Implement your "need help" functionality here
+        }}
+      >
+        <HelpIcon />
+      </IconButton>
     </div>
   );
 }

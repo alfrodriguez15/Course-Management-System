@@ -1,0 +1,45 @@
+.about-us-container {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    margin: 0 auto;
+}
+
+.about-us-title {
+    display: block;
+    text-align: center;
+    padding: 2rem;
+    border-bottom: 2px solid rgba(117, 120, 123, 0.5);
+}
+
+.section-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.section-title {
+
+    width: fit-content;
+    padding: 1rem;
+    border-bottom: 2px solid rgb(117, 120, 123, 0.5);
+}
+
+.section-body {
+    font-size: large;
+    padding: 1rem;
+    margin: 0;
+}
+
+.list-group {
+    padding: 1rem;
+}
+
+.feedback-button {
+    position: fixed;
+    padding: 2rem;
+    bottom: 0;
+    right: 0;
+}
