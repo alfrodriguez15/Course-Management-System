@@ -3,7 +3,7 @@ import Sidebar from '../components/Sidebar.js';
 import BasicTabs from '../components/Tab.js';
 import { Box, IconButton } from '@mui/material';
 import HelpIcon from '@mui/icons-material/Help';
-import CoursesSearch from '../components/CoursesSearch.js';
+import CoursesAdd from '../components/CoursesAdd.js';
 
 function EditSchedule() {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -20,7 +20,7 @@ function EditSchedule() {
           <BasicTabs />
         </Box>
         <Box>
-          <CoursesSearch />
+          <CoursesAdd />
         </Box>
       </div>
       {/* "Need help" icon button */}
