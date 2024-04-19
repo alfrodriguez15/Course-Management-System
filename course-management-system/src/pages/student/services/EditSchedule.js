@@ -3,19 +3,14 @@ import Sidebar from '../components/Sidebar.js';
 import BasicTabs from '../components/Tab.js';
 import { Box, IconButton } from '@mui/material';
 import HelpIcon from '@mui/icons-material/Help';
-import CoursesPage from './Courses.js';
+import CoursesSearch from '../components/CoursesSearch.js';
 
 function EditSchedule() {
   const [showSidebar, setShowSidebar] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
 
   const toggleSidebar = () => {
     setShowSidebar(!showSidebar);
   };
-
-  function handleClickEdit() {
-    // Implement your edit functionality here
-  }
 
   return (
     <div className="schedule-page">
@@ -25,7 +20,7 @@ function EditSchedule() {
           <BasicTabs />
         </Box>
         <Box>
-          <CoursesPage />
+          <CoursesSearch />
         </Box>
       </div>
       {/* "Need help" icon button */}

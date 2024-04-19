@@ -11,9 +11,6 @@ import { Link } from 'react-router-dom';
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
-  function handleClickFind() {
-  }
-
   return (
     <div
       role="tabpanel"
