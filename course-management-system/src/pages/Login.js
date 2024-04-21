@@ -30,6 +30,7 @@ function Login() {
         })
             .then(response => {
                 console.log(response.data); // Log the response from the backend
+                localStorage.setItem('user_email', username);
                 navigate('/student', { state: { userData: response.data } });
             })
             .catch(error => {

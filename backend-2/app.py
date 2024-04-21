@@ -71,6 +71,73 @@ def login():
         return jsonify(user), 200
     else:
         return jsonify({"message": "Invalid username or password"}), 401
+    
+@app.route("/addcourse", methods=["POST"])
+@cross_origin()
+def add_course():
+    data = request.json
+    crn = int(data.get("crn"))
+    subject = data.get("subject")
+    code = int(data.get("code"))
+    name = data.get("name")
+    section_type = data.get("section_type")
+    modality = data.get("modality")
+    credit_hours = int(data.get("credit_hours"))
+    capacity = int(data.get("capacity"))
+    professor = data.get("professor")
+    schedule_days = data.get("schedule_days")
+    schedule_begin = data.get("schedule_begin")
+    schedule_end = data.get("schedule_end")
+    schedule_location = data.get("schedule_location")
+    user_email = data.get("user_email")
+    semester = data.get("semester")
+    year = data.get("year")
+
+    formatted_semester = " ".join([semester, year])
+
+    # Check if the crn is already added
+    user = user_collection.find_one({
+        "email": user_email
+    })
+    user_schedules = user['schedules']
+    for schedule in user_schedules:
+        if schedule['semester'] == formatted_semester:
+            courses = schedule['courses']
+            for course in courses:
+                print()
+                if course['crn'] == crn:
+                    return jsonify({"message": "Course already exists!"}), 400
+                
+    # add the course
+    new_course = {
+        "crn": crn,
+        "subject": subject,
+        "code": code,
+        "name": name,
+        "section_type": section_type,
+        "modality": modality,
+        "credit_hours": credit_hours,
+        "capacity": capacity,
+        "professor": professor,
+        "days": " ".join(schedule_days),
+        "begin_time": schedule_begin,
+        "end_time": schedule_end,
+        "location": schedule_location
+    }
+
+    result = user_collection.update_one(
+        {
+            "email": user_email  # Replace with the name of the user
+        },
+        {
+            "$push": {
+                "schedules.$[schedule].courses": new_course
+            }
+        },
+        array_filters=[{"schedule.semester": formatted_semester}]  # Specify the semester of the schedule
+    )
+
+    return jsonify({"message": "Course added"}), 200
 
 # Route for finding courses
 @app.route("/courses", methods=["POST"])
@@ -123,19 +190,15 @@ def courses():
     else:
         return jsonify({"message": "Course not found. Make sure your search options are correct."}), 404
 
-# @app.route("/analytics", methods=["POST"])
-# @cross_origin()
-# def getAnalytics():
-#     data = request.json
-#     years = data.get("years")
-#     terms = data.get("terms")
-#     subject = data.get("subject")
-#     course = data.get("course")
+@app.route("/schedule", methods=["POST"])
+@cross_origin()
+def schedule():
+    data = request.json
+    email = data.get('email')
+    user = user_collection.find_one({"email": email})
 
-#     df = parse_data(years, terms, subject, course)
+    return jsonify(user['schedules']), 200
 
-#     df_list = df.values.tolist()
-#     return jsonpify(df_list)
 
 @app.route("/analytics", methods=["POST"])
 @cross_origin()
@@ -144,7 +207,7 @@ def getAnalytics():
     subject = data.get("subject")
     code = data.get("code")
     prof = data.get("professor")
-
+ 
     df = search_by_course_prof(subject, int(code), prof)
 
     df_list = df.values.tolist()

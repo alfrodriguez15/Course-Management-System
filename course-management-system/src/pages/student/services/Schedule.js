@@ -24,7 +24,7 @@ function SchedulePage() {
         <Box>
           <BasicTabs />
         </Box>
-        
+
       </div>
       {/* "Need help" icon button */}
       <IconButton

@@ -14,26 +14,14 @@ import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
-function createData(name, subject, date, time, location, price) {
+function createData(name, subject, professor, days, time, location) {
   return {
     name,
     subject,
-    date,
+    professor,
+    days,
     time,
-    location,
-    price,
-    history: [
-      {
-        date: '2020-01-05',
-        customerId: '11091700',
-        amount: 3,
-      },
-      {
-        date: '2020-01-02',
-        customerId: 'Anonymous',
-        amount: 1,
-      },
-    ],
+    location
   };
 }
 
@@ -42,7 +30,7 @@ function Row(props) {
   const [open, setOpen] = React.useState(false);
 
   return (
-  
+
     <React.Fragment>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
         <TableCell>
@@ -58,7 +46,8 @@ function Row(props) {
           {row.name}
         </TableCell>
         <TableCell align="right">{row.subject}</TableCell>
-        <TableCell align="right">{row.date}</TableCell>
+        <TableCell align="right">{row.professor}</TableCell>
+        <TableCell align="right">{row.days}</TableCell>
         <TableCell align="right">{row.time}</TableCell>
         <TableCell align="right">{row.location}</TableCell>
       </TableRow>
@@ -79,7 +68,7 @@ function Row(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.history.map((historyRow) => (
+                  {/* {row.history.map((historyRow) => (
                     <TableRow key={historyRow.date}>
                       <TableCell component="th" scope="row">
                         {historyRow.date}
@@ -90,7 +79,7 @@ function Row(props) {
                         {Math.round(historyRow.amount * row.price * 100) / 100}
                       </TableCell>
                     </TableRow>
-                  ))}
+                  ))} */}
                 </TableBody>
               </Table>
             </Box>
@@ -119,17 +108,33 @@ Row.propTypes = {
   }).isRequired,
 };
 
-const rows = [
-  createData('Intro to GUI Programming', 'CS 3744', 'MWF', '11:00-11:50', 'DND', 3.99),
-  createData('Software Engineering Capstone', 'CS 4704', 'MW', '4:00-5:15', 'MCB', 3.79),
-  createData('Computer Systems', 'CS 3214', 'TR', '11:00-12:15', 'SURGE', 2.5),
-  createData('Data Structure and Algorithms', 'CS 3114', 'MWF', '12:10-1:00', 'SURGE', 1.5),
-];
 
-export default function CollapsibleTable() {
+export default function CollapsibleTable(props) {
+  const [rows, setRows] = React.useState([]);
+
+  React.useEffect(() => {
+    const data = props.data;
+    if (data) {
+      const newRows = [];
+      data['courses'].forEach(element => {
+        const subject = element['subject'];
+        const code = element['code']
+        const name = element['name'];
+        const professor = element['professor'];
+        const days = element['days'];
+        const begin_time = element['begin_time'];
+        const end_time = element['end_time'];
+        const location = element['location'];
+        let courseData = createData(name, subject.concat(" ", code), professor, days, begin_time.concat(" - ", end_time), location)
+        newRows.push(courseData);
+      });
+      setRows(newRows);
+    }
+  }, []);
+
   return (
     <React.Fragment>
-    
+
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table">
           <TableHead>
@@ -137,7 +142,8 @@ export default function CollapsibleTable() {
               <TableCell />
               <TableCell>Course</TableCell>
               <TableCell align="right">Subject</TableCell>
-              <TableCell align="right">Date</TableCell>
+              <TableCell align="right">Professor</TableCell>
+              <TableCell align="right">Days</TableCell>
               <TableCell align="right">Time</TableCell>
               <TableCell align="right">Location</TableCell>
             </TableRow>

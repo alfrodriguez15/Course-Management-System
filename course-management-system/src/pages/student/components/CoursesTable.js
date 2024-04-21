@@ -31,7 +31,7 @@ function Row({ course }) {
             .catch(error => {
                 console.error(error); // Log any errors that occur during the request
             });
-        axios.post('http://localhost:5000/rmp', { subject, code, professor })
+        axios.post('http://localhost:5000/rmp', { professor })
             .then(response => {
                 setRmpData(response.data);
             })
