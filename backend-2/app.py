@@ -234,11 +234,27 @@ def schedule():
 def add_schedule():
     data = request.json
     email = data.get('email')
-    semester = data.get('semesterName')
+    semester = data.get('newSemesterName')
 
+    new_course = {
+        "crn": 0,
+        "subject": "",
+        "code": 0,
+        "name": "",
+        "section_type": "",
+        "modality": "",
+        "credit_hours": 0,
+        "capacity": 0,
+        "professor": "",
+        "days": "",
+        "begin_time": "",
+        "end_time": "",
+        "location": ""
+    }
+    
     new_schedule = {
         "semester": semester,
-        "courses": []
+        "courses": [new_course]
     }
     
     filter_criteria = {
@@ -256,6 +272,30 @@ def add_schedule():
         return jsonify({"message": "User not found"}), 404
     else:
         return jsonify({"message": "Schedule added"}), 200
+    
+@app.route("/deleteschedule", methods=["POST"])
+@cross_origin()
+def delete_schedule():
+    data = request.json
+    email = data.get('email')
+    semester = data.get('semester')
+
+    filter_criteria = {
+    'email': email,
+    'schedules.semester': semester
+    }
+    
+    update_operation = {
+    '$pull': {
+        'schedules': {'semester': semester}  # Remove the entire schedule with the specified semester
+    }
+    }
+    result = user_collection.update_one(filter_criteria, update_operation)
+    if result.modified_count == 0:
+        return jsonify({"message": "Schedule not found"}), 404
+    else:
+        return jsonify({"message": "Schedule deleted"}), 200
+    
 
 @app.route("/analytics", methods=["POST"])
 @cross_origin()

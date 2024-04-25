@@ -44,6 +44,7 @@ function Row(props) {
     const [udcData, setUdcData] = React.useState([]);
     const [rmpData, setRmpData] = React.useState([]);
     localStorage.setItem('semester', props.data[props.value]['semester']);
+    console.log(props.value);
 
     function handleDisplayDetails() {
         setOpen(!open);
@@ -243,7 +244,6 @@ export default function CollapsibleTableEdit(props) {
             setAdditionalRow(additionalInfo);
         }
     }, []);
-    console.log("from collapsible table edit", props.value);
     return (
         <React.Fragment>
 

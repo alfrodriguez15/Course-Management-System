@@ -92,11 +92,12 @@ new_schedule = {
     "courses": []
 }
 filter_criteria = {
-    'email': 'jenh@vt.edu'
+    'email': 'jenp@vt.edu',
+    'schedules.semester': 'FALL 2023'
 }
 update_operation = {
-    '$push': {
-        'schedules': new_schedule
+    '$pull': {
+        'schedules': {'semester': 'FALL 2023'}  # Remove the entire schedule with the specified semester
     }
 }
 result = user_collection.update_one(filter_criteria, update_operation)
