@@ -15,6 +15,8 @@ import Courses from './pages/student/services/Courses.js';
 import AboutStudent from './pages/student/AboutStudent.js';
 import ServicesStudent from './pages/student/ServicesStudent.js';
 import EditSchedule from './pages/student/services/EditSchedule.js';
+import Chatbot from './pages/student/services/Chatbot.js';
+
 function App() {
   return (
     <Routes>
@@ -33,7 +35,7 @@ function App() {
       <Route path="/abtstudent" element={<AboutStudent />}></Route>
       <Route path="/servstudent" element={<ServicesStudent />}></Route>
       <Route path="/editSchedule" element={<EditSchedule />}></Route>
-
+      <Route path="/chatbot" element = {<Chatbot />}></Route>
 
     </Routes>
   )
