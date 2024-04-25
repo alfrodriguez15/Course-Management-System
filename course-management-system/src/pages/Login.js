@@ -17,7 +17,7 @@ function Login() {
     const [email, setEmail] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [role, setRole] = useState('');
+    const [major, setMajor] = useState('');
     const [degree, setDegree] = useState('');
     const [education, setEducation] = useState('');
     const [graduationDate, setGraduationDate] = useState(''); // Set the default value to the current month and year
@@ -46,7 +46,7 @@ function Login() {
             email,
             password: newPassword,
             confirmPassword,
-            role,
+            major,
             degree,
             education,
             graduationDate  // Use the formatted graduationDate
@@ -120,14 +120,12 @@ function Login() {
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                             />
-                            <select
-                                value={role}
-                                onChange={(e) => setRole(e.target.value)}
-                            >
-                                <option value="">Select Role *</option>
-                                <option value="student">Student</option>
-                                <option value="teacher">Professor</option>
-                            </select>
+                            <input
+                                type="major"
+                                placeholder="Major *"
+                                value={email}
+                                onChange={(e) => setMajor(e.target.value)}
+                            />
                             <select
                                 value={degree}
                                 onChange={(e) => setDegree(e.target.value)}

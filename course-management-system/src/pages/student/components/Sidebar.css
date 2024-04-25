@@ -1,11 +1,11 @@
 .sidebar {
+  position: relative; /* Add this to make the position relative */
   background-color: #861F41;
   height: 80px;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between; /* Adjust spacing between elements */
   align-items: center;
   z-index: 1000;
-  /* Set a high z-index value */
 }
 
 .sidebar-menu-bars {
@@ -14,18 +14,25 @@
   background: none;
 }
 
+.profile-icon-wrapper {
+  margin-right: 1rem; /* Adjust margin for spacing */
+}
+
+.profile-icon-wrapper .MuiIconButton-root {
+  padding: 0; /* Remove default padding */
+}
+
 .sidebar-menu {
   background-color: #861F41;
   width: 250px;
   height: 100vh;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   position: fixed;
   top: 0;
   left: -100%;
   transition: 850ms;
   z-index: 999;
-  /* Set a high z-index value */
 }
 
 .sidebar-menu.active {
