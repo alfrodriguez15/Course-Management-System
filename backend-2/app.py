@@ -6,7 +6,6 @@ from parse_udc import search_by_course_prof
 from scrape_rmp import get_professors_by_school_and_name, get_stats_for_prof
 from vtt import *
 import os
-from dotenv import load_dotenv
 import google.generativeai as genai
 from datetime import date
 app = Flask(__name__)
