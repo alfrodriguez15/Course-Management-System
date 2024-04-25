@@ -1,13 +1,37 @@
 .services-container {
-    display: flex;
-    flex-direction: column;
-    width: 70%;
-    margin: 0 auto;
+    width: 100%;
+    margin-top: 20px;
 }
 
 .services-title {
-    display: block;
     text-align: center;
     padding: 2rem;
     border-bottom: 2px solid rgba(117, 120, 123, 0.5);
+}
+
+.section-container {
+    margin-top: 40px; /* Adjusted margin for spacing */
+    margin-bottom: 40px; /* Add margin at the bottom for spacing */
+}
+
+.top-row {
+    margin-bottom: 20px; /* Add margin at the bottom of the top row */
+    /* Add more styles as needed */
+}
+
+.service-card {
+    margin-bottom: 20px;
+    width: 500px; /* Set width to ensure uniform size */
+    height: 100%; /* Set height to ensure uniform size */
+    border: 1px solid rgba(117, 120, 123, 0.5); /* Add border for better visibility */
+    border-radius: 10px; /* Add border radius for rounded corners */
+}
+
+.service-card .card-img-top {
+    height: 200px; /* Adjust the height of the image */
+}
+
+.service-card .card-title {
+    text-align: center; /* Center align the title */
+    font-size: 18px; /* Adjust font size */
 }

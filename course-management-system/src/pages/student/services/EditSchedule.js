@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar.js';
 import BasicTabs from '../components/Tab.js';
+import BasicTabsEdit from '../components/TabEdit.js';
 import { Box, IconButton } from '@mui/material';
 import HelpIcon from '@mui/icons-material/Help';
 import CoursesAdd from '../components/CoursesAdd.js';
@@ -17,7 +18,7 @@ function EditSchedule() {
       <Sidebar show={showSidebar} toggleSidebar={toggleSidebar} />
       <div className={showSidebar ? "content-with-sidebar" : "content"}>
         <Box>
-          <BasicTabs />
+          <BasicTabsEdit />
         </Box>
         <Box>
           <CoursesAdd />

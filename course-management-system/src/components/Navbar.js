@@ -27,6 +27,12 @@ function Navbar() {
                             Services
                         </Link>
                     </li>
+                    {/* Reviews */}
+                    <li className='nav-item'>
+                        <Link to='/reviews' className='nav-link'>
+                            Reviews
+                        </Link>
+                    </li>
                     {/* Sign in */}
                     <li className='nav-item'>
                         <Link to='/login' className='nav-link'>
@@ -42,20 +48,6 @@ function Navbar() {
                 <a href="https://www.vt.edu/" target="_blank" rel="noopener noreferrer">
                     <img src={logo} alt="VT Logo" className="navbar-logo" /> {/* Logo */}
                 </a>
-                <ul className='nav-menu'>
-                    {/* Menu */}
-                    <li className='nav-item-2'>
-                        <Link to='/' className='nav-link-2'>
-                            Menu
-                        </Link>
-                    </li>
-                    {/* Search Bar */}
-                    <li className='nav-item-2'>
-                        <Link to='/aboutus' className='nav-link-2'>
-                            Search
-                        </Link>
-                    </li>
-                </ul>
             </nav>
         </>
 

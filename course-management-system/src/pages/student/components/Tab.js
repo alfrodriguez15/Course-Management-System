@@ -7,6 +7,8 @@ import Box from '@mui/material/Box';
 import CollapsibleTable from './CollapsibleTable'; // Import your CollapsibleTable component here
 import Button from 'react-bootstrap/esm/Button';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import Col from 'react-bootstrap/esm/Col';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -20,7 +22,7 @@ function CustomTabPanel(props) {
       {...other}
     >
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-      <Link to="/editSchedule">
+        <Link to="/editSchedule">
           <Button
             className='find-button'
             variant="primary"
@@ -54,6 +56,22 @@ function a11yProps(index) {
 
 export default function BasicTabs() {
   const [value, setValue] = React.useState(0);
+  const [data, setData] = React.useState([]);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const email = localStorage.getItem('user_email');
+      axios.post('http://localhost:5000/schedule', { email })
+        .then(response => {
+          setData(response.data);
+        })
+        .catch(error => {
+          console.error(error); // Log any errors that occur during the request
+        });
+    };
+
+    fetchData();
+  }, []);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -64,22 +82,20 @@ export default function BasicTabs() {
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Spring 2024" {...a11yProps(0)} />
-          <Tab label="Summer 2024" {...a11yProps(1)} />
-          <Tab label="Fall 2024" {...a11yProps(2)} />
+          {
+            data && data.map((element, i) => {
+              return <Tab label={element['semester']} {...a11yProps(i)} />
+            })
+          }
         </Tabs>
       </Box>
-      <CustomTabPanel value={value} index={0}>
-        <CollapsibleTable /> {/* Render the CollapsibleTable component inside Tab 1 */}
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
-        <CollapsibleTable />
-        {/* Render additional components or content inside Tab 2 if needed */}
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
-        <CollapsibleTable />
-        {/* Render additional components or content inside Tab 3 if needed */}
-      </CustomTabPanel>
+      {
+        data && data.map((element, i) => {
+          return (<CustomTabPanel value={value} index={i}>
+            <CollapsibleTable data={element} />
+          </CustomTabPanel>)
+        })
+      }
     </Box>
   );
 }

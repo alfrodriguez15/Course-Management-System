@@ -10,45 +10,45 @@ export const SidebarData = [
     icon: <AiIcons.AiFillHome />,
     cName: 'side-text'
   },
+  // {
+  //   title: 'About Us',
+  //   path: '/abtstudent',
+  //   icon: <IoIcons.IoIosPaper />,
+  //   cName: 'side-text'
+  // },
   {
-    title: 'About Us',
-    path: '/abtstudent',
-    icon: <IoIcons.IoIosPaper />,
-    cName: 'side-text'
-  },
-  {
-    title: 'Schedule',
+    title: 'Schedules',
     path: '/schedule',
     icon: <IoIcons.IoIosCalendar />,
     cName: 'side-text'
   },
   {
-    title: 'Courses',
+    title: 'Search Courses',
     path: '/courses',
     icon: <IoIcons.IoIosApps />,
     cName: 'side-text'
   },
-  {
-    title: 'Professors',
-    path: '/',
-    icon: <IoIcons.IoMdPeople />,
-    cName: 'side-text'
-  },
+  // {
+  //   title: 'Professors',
+  //   path: '/',
+  //   icon: <IoIcons.IoMdPeople />,
+  //   cName: 'side-text'
+  // },
   {
     title: 'Chatbot',
     path: '/',
     icon: <IoIcons.IoIosChatboxes />,
     cName: 'side-text'
   },
+  // {
+  //   title: 'Services',
+  //   path: '/servstudent',
+  //   icon: <FaIcons.FaEnvelopeOpenText />,
+  //   cName: 'side-text'
+  // },
   {
-    title: 'Services',
-    path: '/servstudent',
-    icon: <FaIcons.FaEnvelopeOpenText />,
-    cName: 'side-text'
-  },
-  {
-    title: 'Support',
-    path: '/',
+    title: 'Feedback',
+    path: '/feedback',
     icon: <IoIcons.IoMdHelpCircle />,
     cName: 'side-text'
   }

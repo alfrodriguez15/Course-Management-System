@@ -14,8 +14,10 @@ import Typography from '@mui/material/Typography';
 import Collapse from '@mui/material/Collapse';
 import axios from 'axios';
 import Button from 'react-bootstrap/esm/Button';
+import { useNavigate } from 'react-router-dom';
 
 function Row({ course }) {
+    const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const [udcData, setUdcData] = useState([]);
     const [rmpData, setRmpData] = useState([]);
@@ -39,6 +41,38 @@ function Row({ course }) {
             .catch(error => {
                 console.error(error); // Log any errors that occur during the request
             });
+    };
+
+    function handleAddCourse() {
+        const crn = course.crn;
+        const subject = course.subject;
+        const code = course.code;
+        const name = course.name;
+        const section_type = course.section_type;
+        const modality = course.modality;
+        const credit_hours = course.credit_hours;
+        const capacity = course.capacity;
+        const professor = course.professor;
+        const schedule_days = course.schedule.Days
+        const schedule_begin = course.schedule.Begin;
+        const schedule_end = course.schedule.End;
+        const schedule_location = course.schedule.Location;
+        const user_email = localStorage.getItem('user_email');
+        const semester = localStorage.getItem('semester');
+        const year = course.year;
+        axios.post('http://localhost:5000/addcourse', {
+            crn, subject, code, name, section_type, modality,
+            credit_hours, capacity, professor, schedule_days,
+            schedule_begin, schedule_end, schedule_location,
+            user_email, semester, year
+        })
+            .then(response => {
+                console.log("Course added!");
+            })
+            .catch(error => {
+                console.error(error); // Log any errors that occur during the request
+            });
+        navigate('/schedule');
     }
 
     return (
@@ -70,6 +104,7 @@ function Row({ course }) {
                         className='add-button'
                         variant="primary"
                         style={{ margin: '10px', backgroundColor: 'orange' }}
+                        onClick={handleAddCourse}
                     >
                         Add
                     </Button>

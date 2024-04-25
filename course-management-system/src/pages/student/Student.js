@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import { useLocation } from 'react-router-dom';
-import videoBg from './video/schedule_clip.mp4';
+import videoBg from './video/vt_course_video.mp4';
 
 function Student(props) {
     const location = useLocation(); // Get the location object

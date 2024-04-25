@@ -7,15 +7,10 @@ import CoursesPage from './Courses.js';
 
 function SchedulePage() {
   const [showSidebar, setShowSidebar] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
 
   const toggleSidebar = () => {
     setShowSidebar(!showSidebar);
   };
-
-  function handleClickEdit() {
-    // Implement your edit functionality here
-  }
 
   return (
     <div className="schedule-page">
@@ -24,22 +19,9 @@ function SchedulePage() {
         <Box>
           <BasicTabs />
         </Box>
-        
+
       </div>
-      {/* "Need help" icon button */}
-      <IconButton
-        style={{
-          position: 'fixed',
-          bottom: 20,
-          right: 20,
-          backgroundColor: '#fff',
-        }}
-        onClick={() => {
-          // Implement your "need help" functionality here
-        }}
-      >
-        <HelpIcon />
-      </IconButton>
+      
     </div>
   );
 }
