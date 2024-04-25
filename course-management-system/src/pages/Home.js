@@ -44,16 +44,16 @@ function Home() {
 
                 <div className="icon-texts-section">
                     <div className="icon-text">
-                        <p>Student</p>
-                        <p>Manage your courses and schedules as a student.</p>
+                        <p>Manage</p>
+                        <p>Manage your past, current, and future schedules as a student.</p>
                     </div>
                     <div className="icon-text">
-                        <p>Professor</p>
-                        <p>Easily manage your courses and communicate with students.</p>
+                        <p>Research</p>
+                        <p>Easily research your courses and make informed decisions.</p>
                     </div>
                     <div className="icon-text">
-                        <p>Administrator</p>
-                        <p>Effortlessly oversee course management system and feedback</p>
+                        <p>Create</p>
+                        <p>Effortlessly create and save schedules.</p>
                     </div>
                 </div>
 

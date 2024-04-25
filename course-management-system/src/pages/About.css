@@ -1,45 +1,40 @@
+/* about.css */
 .about-us-container {
-    display: flex;
-    flex-direction: column;
-    width: 70%;
+    max-width: 800px; /* Adjusted for better readability */
     margin: 0 auto;
+    padding: 0 20px; /* Added padding for better spacing */
 }
 
 .about-us-title {
-    display: block;
     text-align: center;
-    padding: 2rem;
-    border-bottom: 2px solid rgba(117, 120, 123, 0.5);
+    padding: 2rem 0; /* Adjusted padding */
+    border-bottom: 2px solid #75787B; /* Changed border color */
 }
 
 .section-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
+    padding: 2rem 0; /* Adjusted padding */
+    border-bottom: 2px solid #75787B; /* Added border between sections */
+    text-align: center; /* Center align text */
 }
 
 .section-title {
-
-    width: fit-content;
-    padding: 1rem;
-    border-bottom: 2px solid rgb(117, 120, 123, 0.5);
+    padding: 1rem 0; /* Adjusted padding */
+    border-bottom: 2px solid #75787B; /* Changed border color */
 }
 
 .section-body {
-    font-size: large;
-    padding: 1rem;
+    font-size: 16px; /* Adjusted font size */
+    padding: 1rem 0; /* Adjusted padding */
     margin: 0;
 }
 
 .list-group {
-    padding: 1rem;
+    padding: 1rem 0; /* Adjusted padding */
 }
 
 .feedback-button {
     position: fixed;
-    padding: 2rem;
-    bottom: 0;
-    right: 0;
+    bottom: 20px; /* Adjusted position */
+    right: 20px; /* Adjusted position */
+    z-index: 100; /* Ensure button is above other content */
 }

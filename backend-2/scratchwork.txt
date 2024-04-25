@@ -10,3 +10,35 @@
                                         <MenuItem value="option2">Option 2</MenuItem>
                                     </TextField>
                                 </TableCell> */}
+
+<ul className='nav-menu'>
+                    {/* Menu */}
+                    <li className='nav-item-2'>
+                        <Link to='/' className='nav-link-2'>
+                            Menu
+                        </Link>
+                    </li>
+                    {/* Search Bar */}
+                    <li className='nav-item-2'>
+                        <Link to='/aboutus' className='nav-link-2'>
+                            Search
+                        </Link>
+                    </li>
+                </ul>
+
+{/* "Need help" icon button */}
+      <IconButton
+        style={{
+          position: 'fixed',
+          bottom: 20,
+          right: 20,
+          backgroundColor: '#fff',
+        }}
+        onClick={() => {
+          // Implement your "need help" functionality here
+        }}
+      >
+        <HelpIcon />
+      </IconButton>             
+
+662a5ed921dc1bdf76d05f8a

@@ -10,11 +10,14 @@ import Student from './pages/student/Student.js';
 import Schedule from './pages/student/services/Schedule.js';
 import Analytics from './pages/Analytics.js';
 import Ratings from './pages/student/services/Ratings.js';
+import Feedback from './pages/student/services/Feedback.js';
 import Professors from './pages/student/Professors.js';
 import Courses from './pages/student/services/Courses.js';
 import AboutStudent from './pages/student/AboutStudent.js';
 import ServicesStudent from './pages/student/ServicesStudent.js';
 import EditSchedule from './pages/student/services/EditSchedule.js';
+import Reviews from './pages/Reviews.js'
+
 function App() {
   return (
     <Routes>
@@ -33,8 +36,8 @@ function App() {
       <Route path="/abtstudent" element={<AboutStudent />}></Route>
       <Route path="/servstudent" element={<ServicesStudent />}></Route>
       <Route path="/editSchedule" element={<EditSchedule />}></Route>
-
-
+      <Route path="/feedback" element={<Feedback />}></Route>
+      <Route path="/reviews" element={<Reviews />}></Route>
     </Routes>
   )
 }

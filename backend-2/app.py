@@ -15,6 +15,7 @@ connection_string = f"mongodb+srv://course-ms:{password}@course-ms.u8bdkip.mongo
 client = MongoClient(connection_string)
 course_db = client.course_db
 user_collection = course_db.users
+feedback_collection = course_db.feedback
 
 # Route for user signup
 @app.route("/signup", methods=["POST"])
@@ -62,15 +63,20 @@ def login():
     password = data.get("password")
     
     # Query the database to find the user by username and password for login
-    user = user_collection.find_one({"email": username, "password": password})
-    user["_id"] = str(user["_id"])
+    user = user_collection.find_one({"email": username})
 
     if user:
-        # Set user session if login is successful
-        session["username"] = username
-        return jsonify(user), 200
+        if user["password"] == password:
+            # Password matches
+            session["username"] = username
+            user["_id"] = str(user["_id"])
+            return jsonify(user), 200
+        else:
+            # Password doesn't match
+            return jsonify({"message": "Invalid password"}), 400
     else:
-        return jsonify({"message": "Invalid username or password"}), 401
+        # User with the provided email not found
+        return jsonify({"message": "Invalid username"}), 400
     
 @app.route("/addcourse", methods=["POST"])
 @cross_origin()
@@ -91,9 +97,6 @@ def add_course():
     schedule_location = data.get("schedule_location")
     user_email = data.get("user_email")
     semester = data.get("semester")
-    year = data.get("year")
-
-    formatted_semester = " ".join([semester, year])
 
     # Check if the crn is already added
     user = user_collection.find_one({
@@ -101,7 +104,7 @@ def add_course():
     })
     user_schedules = user['schedules']
     for schedule in user_schedules:
-        if schedule['semester'] == formatted_semester:
+        if schedule['semester'] == semester:
             courses = schedule['courses']
             for course in courses:
                 print()
@@ -134,10 +137,37 @@ def add_course():
                 "schedules.$[schedule].courses": new_course
             }
         },
-        array_filters=[{"schedule.semester": formatted_semester}]  # Specify the semester of the schedule
+        array_filters=[{"schedule.semester": semester}]  # Specify the semester of the schedule
     )
 
     return jsonify({"message": "Course added"}), 200
+
+@app.route("/deletecourse", methods=["POST"])
+@cross_origin()
+def delete_course():
+    data = request.json
+    crn = int(data.get("crn"))
+    user_email = data.get("email")
+    semester = data.get("semester")
+
+    filter_criteria = {
+    'email': user_email,
+    'schedules.semester': semester,
+    'schedules.courses.crn': crn
+    }
+
+    update_operation = {
+    '$pull': {
+        'schedules.$.courses': {'crn': crn}
+    }
+    }
+    
+    result = user_collection.update_one(filter_criteria, update_operation)
+    
+    if result.modified_count == 0:
+        return jsonify({"message": "Course not found"}), 404
+    else:
+        return jsonify({"message": "Course deleted"}), 200
 
 # Route for finding courses
 @app.route("/courses", methods=["POST"])
@@ -199,6 +229,33 @@ def schedule():
 
     return jsonify(user['schedules']), 200
 
+@app.route("/addschedule", methods=["POST"])
+@cross_origin()
+def add_schedule():
+    data = request.json
+    email = data.get('email')
+    semester = data.get('semesterName')
+
+    new_schedule = {
+        "semester": semester,
+        "courses": []
+    }
+    
+    filter_criteria = {
+    'email': email
+    }
+
+    update_operation = {
+    '$push': {
+        'schedules': new_schedule
+    }
+    }
+    result = user_collection.update_one(filter_criteria, update_operation)
+
+    if result.modified_count == 0:
+        return jsonify({"message": "User not found"}), 404
+    else:
+        return jsonify({"message": "Schedule added"}), 200
 
 @app.route("/analytics", methods=["POST"])
 @cross_origin()
@@ -226,6 +283,34 @@ def getRMPData():
 
     stats = get_stats_for_prof(prof_id, prof, "Virginia Tech")
     return jsonpify(stats)
+
+@app.route("/submitfeedback", methods=["POST"])
+@cross_origin()
+def submitFeedback():
+    data = request.json
+    value = data.get("value")
+    feedback = data.get("feedback")
+
+    if value == 0:
+        return jsonify({"message": "Invalid value"}), 400
+    if not feedback:
+        return jsonify({"message": "Feedback cannot be empty"}), 400
+    else:
+        feedback_collection.insert_one({
+            "value": value,
+            "feedback": feedback
+        })
+        return jsonify({"message": "Feedback submitted, Thank you!"}), 200
+    
+@app.route("/getfeedback", methods=["GET"])
+@cross_origin()
+def getFeedback():
+    feedback = feedback_collection.find()
+    feedback_list = []
+    for f in feedback:
+        f["_id"] = str(f["_id"])
+        feedback_list.append(f)
+    return jsonpify(feedback_list)
 
 if __name__ == "__main__":
     app.secret_key = os.environ.get("SECRET_KEY")

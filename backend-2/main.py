@@ -43,11 +43,11 @@ def get_course_crn(term_year, semester, crn):
 
 # course = get_crn('2024', Semester.SPRING, '21892')
 # course = get_course_crn('2024', Semester.SPRING, '21892')
-course = search_timetable('2024', Semester.SPRING, Campus.BLACKSBURG, Pathway.ALL, '', SectionType.ALL, '', '13511', Status.ALL, Modality.ALL)
-course_data = [c._course_data for c in course]
-user = course_db.users.find_one({"email": "jenh@vt.edu", "password": "pass123"})
-user["_id"] = str(user["_id"])
-print(user)
+# course = search_timetable('2024', Semester.SPRING, Campus.BLACKSBURG, Pathway.ALL, '', SectionType.ALL, '', '13511', Status.ALL, Modality.ALL)
+# course_data = [c._course_data for c in course]
+# user = course_db.users.find_one({"email": "jenh@vt.edu", "password": "pass123"})
+# user["_id"] = str(user["_id"])
+# print(user)
         
 # for c in course_data:
     
@@ -78,3 +78,25 @@ print(user)
 #     c["schedule"] = new_dict
 # pprint.pprint(course_data)
 # update_user_document("jenh@vt.edu", {"name": "Jen Hoang", "password": "password1234"})
+
+# feedback_collection = course_db.feedback
+# feedback = feedback_collection.find()
+# feedback_list = []
+# for f in feedback:
+#     f["_id"] = str(f["_id"])
+#     feedback_list.append(f)
+# print(feedback_list)
+user_collection = course_db.users
+new_schedule = {
+    "semester": "FALL 2024",
+    "courses": []
+}
+filter_criteria = {
+    'email': 'jenh@vt.edu'
+}
+update_operation = {
+    '$push': {
+        'schedules': new_schedule
+    }
+}
+result = user_collection.update_one(filter_criteria, update_operation)

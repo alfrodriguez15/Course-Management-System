@@ -58,7 +58,7 @@ function Row({ course }) {
         const schedule_end = course.schedule.End;
         const schedule_location = course.schedule.Location;
         const user_email = localStorage.getItem('user_email');
-        const semester = course.semester;
+        const semester = localStorage.getItem('semester');
         const year = course.year;
         axios.post('http://localhost:5000/addcourse', {
             crn, subject, code, name, section_type, modality,

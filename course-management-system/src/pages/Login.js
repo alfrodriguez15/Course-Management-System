@@ -35,9 +35,7 @@ function Login() {
             })
             .catch(error => {
                 console.error(error); // Log any errors that occur during the request
-                if (error.response && error.response.data) {
-                    setLoginError(error.response.data.message); // Set the error message in state
-                }
+                setLoginError(error.response.data.message); // Set the error message in state
             });
     }
 
