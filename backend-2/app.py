@@ -6,11 +6,15 @@ from parse_udc import search_by_course_prof
 from scrape_rmp import get_professors_by_school_and_name, get_stats_for_prof
 from vtt import *
 import os
-
+from dotenv import load_dotenv
+import google.generativeai as genai
+from datetime import date
 app = Flask(__name__)
 CORS(app, origins=["http://localhost:3000"])
 
 password = os.environ.get("MONGODB_PWD")
+key = os.environ.get("API_KEY")
+genai.configure(api_key=key)
 connection_string = f"mongodb+srv://course-ms:{password}@course-ms.u8bdkip.mongodb.net/?retryWrites=true&w=majority&appName=course-ms"
 client = MongoClient(connection_string)
 course_db = client.course_db
@@ -351,6 +355,276 @@ def getFeedback():
         f["_id"] = str(f["_id"])
         feedback_list.append(f)
     return jsonpify(feedback_list)
+
+#Should only be called when no semester is provided. Might need to fine tune based on
+#if the next semester is available or not. Won't be using until a single constraint (like subject) works
+def getSemester():
+    currMonth = date.today().month
+    currSem = Semester.WINTER
+    if currMonth >= 9 and currMonth < 12:
+        currSem = Semester.FALL
+    elif currMonth >= 6:
+        currSem = Semester.SUMMER
+    elif currMonth >= 1:
+        currSem = Semester.SPRING
+    return currSem
+
+# def coursesToString(courses: Course):
+    #Make a course into a string based on its data
+    #kept it simplistic for now but this should make it easy for Gemini to access course data
+    # courseStr = ""
+    # for c in courses:
+    #     courseStr += "Name : " Course.get_Name(c)
+
+def findSubject(question):
+    subjects = {
+    "21st Century Studies": ["C21S"],
+    "Accounting & Information Systems": ["ACIS"],
+    "Advertising": ["ADV"],
+    "Aerospace and Ocean Engineering": ["AOE"],
+    "Africana Studies": ["AFST"],
+    "Agr, Leadership, & Comm. Ed.": ["ALCE"],
+    "Agricultural and Applied Econo": ["AAEC"],
+    "Agriculture and Life Sciences": ["ALS"],
+    "Agriculutral Technology": ["AT"],
+    "American Indian Studies": ["AINS"],
+    "Animal and Poultry Sciences": ["APSC"],
+    "Appalachian Studies": ["APS"],
+    "Apparel, Housing, & Resour Mgt": ["AHRM"],
+    "Arabic": ["ARBC"],
+    "Architecture": ["ARCH"],
+    "Architecture, Arts, and Design": ["AAD"],
+    "Art and Art History": ["ART"],
+    "Behavioral Decision Science": ["BDS"],
+    "Biochemistry": ["BCHM"],
+    "Biological Sciences": ["BIOL"],
+    "Biological Systems Engineering": ["BSE"],
+    "Biomed & Veterinary Sciences": ["BMVS"],
+    "Biomed Sci & Pathobiology": ["BMSP"],
+    "Biomedical Engr & Sciences": ["BMES"],
+    "Building Construction": ["BC"],
+    "Business": ["BUS"],
+    "Business Information Tech": ["BIT"],
+    "Career and Technical Education": ["EDCT"],
+    "Chemical Engineering": ["CHE"],
+    "Chemistry": ["CHEM"],
+    "Chinese": ["CHN"],
+    "Cinema": ["CINE"],
+    "Civil and Environmental Engineering": ["CEE"],
+    "Classics": ["CLA"],
+    "College of Science": ["COS"],
+    "Communication": ["COMM"],
+    "Communication Studies": ["CMST"],
+    "Comp Modeling & Data Analytics": ["CMDA"],
+    "Computer Science": ["CS"],
+    "Construction Engineering & Mgt": ["CEM"],
+    "Consumer Studies": ["CONS"],
+    "Cooperative Education Program": ["CEP"],
+    "Criminology": ["CRIM"],
+    "Crop and Soil Environmental Science": ["CSES"],
+    "Dairy Science": ["DASC"],
+    "Dance": ["DANC"],
+    "Economics": ["ECON"],
+    "Education, Counseling": ["EDCO"],
+    "Education, Curriculum and Instruction": ["EDCI"],
+    "Educational Psychology": ["EDEP"],
+    "Electrical & Computer Engineering": ["ECE"],
+    "Engineering": ["ENGR"],
+    "Engineering Education": ["ENGE"],
+    "Engineering Science and Mechanics": ["ESM"],
+    "English": ["ENGL"],
+    "Entomology": ["ENT"],
+    "Environmental Science": ["ENSC"],
+    "Family and Consumer Science": ["FCS"],
+    "Fashion Merchandising & Design": ["FMD"],
+    "Finance, Insurance, and Business": ["FIN"],
+    "Financial Aid": ["FNAD"],
+    "Fine Arts": ["FA"],
+    "Fish and Wildlife Sciences": ["FIW"],
+    "Food Science and Technology": ["FST"],
+    "Foreign Language": ["FL"],
+    "Forest Resources & Eviron Conservation": ["FREC"],
+    "Free Elective": ["VT"],
+    "French": ["FR"],
+    "Geography": ["GEOG"],
+    "Geosciences": ["GEOS"],
+    "German": ["GER"],
+    "Greek": ["GR"],
+    "Hebrew": ["HEB"],
+    "History": ["HIST"],
+    "Horticulture": ["HORT"],
+    "Hospitality and Tourism Management": ["HTM"],
+    "Human Development": ["HD"],
+    "Human Nutrition, Foods, and Exercise": ["HNFE"],
+    "Humanities": ["HUM"],
+    "Industrial and Systems Engineering": ["ISE"],
+    "Industrial Design": ["IDS"],
+    "Instructional Design & Tech": ["EDIT"],
+    "Integrated Science": ["ISC"],
+    "Interior Design": ["ITDS"],
+    "International Studies": ["IS"],
+    "Italian": ["ITAL"],
+    "Japanese": ["JPN"],
+    "Journalism and Mass Communication": ["JMC"],
+    "Judaic Studies": ["JUD"],
+    "Korean": ["KOR"],
+    "Landscape Architecture": ["LAR"],
+    "Latin": ["LAT"],
+    "Leadership Studies": ["LDRS"],
+    "Liberal Arts and Human Science": ["LAHS"],
+    "Management": ["MGT"],
+    "Marketing": ["MKTG"],
+    "Materials Science and Engineering": ["MSE"],
+    "Mathematics": ["MATH"],
+    "Mechanical Engineering": ["ME"],
+    "Meteorology": ["MTRG"],
+    "Military Navy": ["MN"],
+    "Military Sciences (AROTC)": ["MS"],
+    "Military, Aerospace Studies": ["AS"],
+    "Mining and Minerals Engineerin": ["MINE"],
+    "Music": ["MUS"],
+    "Nanoscience": ["NANO"],
+    "Natural Resources": ["NR"],
+    "Neuroscience": ["NEUR"],
+    "Nuclear Science & Engineering": ["NSEG"],
+    "Peace Studies": ["PSVP"],
+    "Philosophy": ["PHIL"],
+    "Philosophy, Politics, and Econ": ["PPE"],
+    "Physics": ["PHYS"],
+    "Plant Pathology, Physiology, a": ["PPWS"],
+    "Political Science": ["PSCI"],
+    "Population Health Sciences": ["PHS"],
+    "Portuguese": ["PORT"],
+    "Property Management": ["PM"],
+    "Psychology": ["PSYC"],
+    "Public Relations": ["PR"],
+    "Real Estate": ["REAL"],
+    "Religion and Culture": ["RLCL"],
+    "Residential Environment & Design": ["RED"],
+    "Russian": ["RUS"],
+    "School of Plant & Environmental Science": ["SPES"],
+    "School of Pub & International Affairs": ["SPIA"],
+    "Science Technology Studies": ["STS"],
+    "Science, Technology, & Law": ["STL"],
+    "Sociology": ["SOC"],
+    "Spanish": ["SPAN"],
+    "Statistics": ["STAT"],
+    "Summer Academy": ["SUMA"],
+    "Sustainable Biomaterials": ["SBIO"],
+    "Systems Biology": ["SYSB"],
+    "Technology Education": ["EDTE"],
+    "Theatre and Cinema": ["TA"],
+    "Trans Biol Medicine & Health": ["TBMH"],
+    "University Course Series": ["UNIV"],
+    "University Honors Program": ["UH"],
+    "University Registrar": ["REG"],
+    "Urban Affairs and Planning": ["UAP"],
+    "Water": ["WATR"],
+    "Women's and Gender Studies": ["WGS"]
+}
+
+    
+    question_lower = question.lower()
+    for subject, abbreviations, in subjects.items():
+        if any(" " + subject.lower() + " course" in question_lower for sub in subject):
+            return abbreviations
+    for subject, abbreviations in subjects.items():
+        if any(" " + abbr.lower() + " course" in question_lower for abbr in abbreviations):
+            return abbreviations
+    return None
+        
+
+# print(courses["Subject"])
+#establishing the values to give 
+def searchCourses(subject):
+    year = str(date.today().year) #NOTE: this, semester, section type, campus, etc should be able to change on suer input
+    semester = getSemester()
+    campus = Campus.BLACKSBURG
+    pathway = Pathway.ALL
+    sectionType = SectionType.ALL
+    code = ""
+    crn = ""
+    status = Status.OPEN
+    modality = Modality.ALL
+
+    courses = search_timetable(year, semester, campus, pathway, subject, sectionType, code, crn, status, modality)
+    # print(courses)
+    return courses
+
+@app.route('/chatbot', methods=['POST'])
+def chatbot():
+    # Set up the model
+    generation_config = {
+    "temperature": 1,
+    "top_p": 0.95,
+    "top_k": 0,
+    "max_output_tokens": 8192,
+    }
+
+    safety_settings = [
+    {
+        "category": "HARM_CATEGORY_HARASSMENT",
+        "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+    },
+    {
+        "category": "HARM_CATEGORY_HATE_SPEECH",
+        "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+    },
+    {
+        "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+        "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+    },
+    {
+        "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+        "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+    },
+    ]
+
+    model = genai.GenerativeModel(model_name="gemini-1.5-pro-latest",
+                                generation_config=generation_config,
+                                safety_settings=safety_settings)
+    chat = model.start_chat(history=[])
+    instruction = """You are a chatbot assistant who helps the user by 
+    showing appropriate courses based on their constraints such as course name, professor, subject, year, semester, campus and status
+    or credit hours. Provide a suggestion for the following inquiry: """ #start by sending a welcome message and have a friendly welcoming tone."""
+    # response = chat.send_message(instruction)
+    # print(f"Chatbot: {response.text}")
+    # print('\n')
+    # while(True):
+    userInput = request.json.get("message")
+    if(userInput.strip() == ''):
+        return 'Please provide some input' #should ideally never get here if react submit is programmed well
+    question = instruction + userInput
+
+    subject = findSubject(question)
+    if subject:
+        courses = searchCourses(subject)
+        courseStr = ""
+        for c in courses:
+            #for fields that are not str might need to have a function that turns them into strings by dereferencing and changing them based
+            #on the API values
+            #NOTE:remember to add these changes to app.py in repo
+            # data = c._course_data #added but not used yet
+            cName = Course.get_subject(c) + " " + Course.get_code(c) + ": " + Course.get_name(c) #added
+            cProfessor = Course.get_professor(c)
+            cYear = Course.get_year(c)
+            cSemester = Course.get_semester(c)
+            cCredits = Course.get_credit_hours(c)
+            # crn = Course.get_crn(c) # added
+            #use schedule_keys thing to get days here
+            #use something similar for modality
+            #
+            courseStr += "| Name: " + cName + "| Professor: " + cProfessor + "| Semester: Fall" + " " + cYear + "| Credit Hours: " + cCredits +"\n" #+ "| CRN: " + crn 
+            #string above was definitely modified   
+            print(courseStr)     
+        question += ". You can use the following data to provide 5 results that fit the request: " + courseStr
+        # print(courseStr)
+    response = chat.send_message(question)
+    print('\n')
+    print(f"Chatbot: {response.text}")
+    print('\n')
+    return response.text
+
 
 if __name__ == "__main__":
     app.secret_key = os.environ.get("SECRET_KEY")
