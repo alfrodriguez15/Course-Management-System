@@ -585,7 +585,8 @@ def chatbot():
     chat = model.start_chat(history=[])
     instruction = """You are a chatbot assistant who helps the user by 
     showing appropriate courses based on their constraints such as course name, professor, subject, year, semester, campus and status
-    or credit hours. Provide a suggestion for the following inquiry: """ #start by sending a welcome message and have a friendly welcoming tone."""
+    or credit hours. Please format the response in proper html format with as a div. Use headers, bold/italic text and different font sizes as needed
+    . Provide a suggestion for the following inquiry: """ #start by sending a welcome message and have a friendly welcoming tone."""
     # response = chat.send_message(instruction)
     # print(f"Chatbot: {response.text}")
     # print('\n')
@@ -615,13 +616,13 @@ def chatbot():
             #
             courseStr += "| Name: " + cName + "| Professor: " + cProfessor + "| Semester: Fall" + " " + cYear + "| Credit Hours: " + cCredits +"\n" #+ "| CRN: " + crn 
             #string above was definitely modified   
-            print(courseStr)     
-        question += ". You can use the following data to provide 5 results that fit the request: " + courseStr
+            # print(courseStr)     
+        question += ". You can use the following data to provide 5 distinct results that fit the request(unless they ask for different sections of the same course). If they ask for  a schedule only provide 1: " + courseStr
         # print(courseStr)
     response = chat.send_message(question)
-    print('\n')
-    print(f"Chatbot: {response.text}")
-    print('\n')
+    # print('\n')
+    # print(f"Chatbot: {response.text}")
+    # print('\n')
     return response.text
 
 
