@@ -25,7 +25,7 @@ export const SidebarData = [
 
   {
     title: 'Chatbot',
-    path: '/',
+    path: '/chatbot',
     icon: <IoIcons.IoIosChatboxes />,
     cName: 'side-text'
   },

@@ -16,6 +16,7 @@ import ServicesStudent from './pages/student/ServicesStudent.js';
 import EditSchedule from './pages/student/services/EditSchedule.js';
 import Reviews from './pages/Reviews.js';
 import Profile from './pages/student/Profile.js';
+import ChatBot from './pages/student/ChatBot.js';
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
       <Route path="/editSchedule" element={<EditSchedule />}></Route>
       <Route path="/feedback" element={<Feedback />}></Route>
       <Route path="/reviews" element={<Reviews />}></Route>
+      <Route path="/chatbot" element={<ChatBot />}></Route>
     </Routes>
   )
 }
