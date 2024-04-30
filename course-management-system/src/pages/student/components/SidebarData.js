@@ -11,13 +11,13 @@ export const SidebarData = [
   },
 
   {
-    title: 'Schedules',
+    title: 'Schedule',
     path: '/schedule',
     icon: <IoIcons.IoIosCalendar />,
     cName: 'side-text'
   },
   {
-    title: 'Search Courses',
+    title: 'Course Search',
     path: '/courses',
     icon: <IoIcons.IoIosApps />,
     cName: 'side-text'

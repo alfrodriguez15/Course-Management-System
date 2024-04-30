@@ -5,7 +5,6 @@ import Home from './pages/Home.js';
 import Login from './pages/Login.js';
 import About from './pages/About.js';
 import Services from './pages/Services.js';
-import NewUser from './pages/student/NewUser.js';
 import Student from './pages/student/Student.js';
 import Schedule from './pages/student/services/Schedule.js';
 import Analytics from './pages/Analytics.js';
@@ -26,8 +25,7 @@ function App() {
       <Route path="/aboutus" element={<About />}></Route>
       <Route path="/services" element={<Services />}></Route>
       <Route path="/login" element={<Login />}></Route>
-
-      <Route path="/newuser" element={<NewUser />}></Route>
+      
       <Route path ="/profile" element ={<Profile />}></Route>
       <Route path="/student" element={<Student />}></Route>
       <Route path="/schedule" element={<Schedule />}></Route>
