@@ -3,13 +3,6 @@ import "./Chatbot.css"
 import Navbar from '../../components/Navbar';
 import Sidebar from './components/Sidebar';
 
-// function formatText(text) {
-//     text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-//     text = text.replace(/\*(.*?)\*/g, '<i>$1</i>');
-//     text = text.replace(/\#\#(.*?)/g, '<h2>$1</h2>');
-//     return text
-// }
-
 function ChatBot () {
     const [showSidebar, setShowSidebar] = useState(false);
     const [prompt, setPrompt] = useState('');
@@ -40,7 +33,8 @@ function ChatBot () {
         //have a function to check button status
         //here it should make it not pressable and change the placeholder to "Waiting on a response" or something like that
         let updatedMessages = [...messages]
-        updatedMessages.push({ id: updatedMessages.length + 1, text: prompt, type: 'User' })
+        let newUserMessage = { id: updatedMessages.length + 1, text: prompt, type: 'User' }
+        updatedMessages.push(newUserMessage)
         setMessages(updatedMessages);
         fetch('http://localhost:5000/chatbot', {
           method: 'POST',
@@ -52,7 +46,9 @@ function ChatBot () {
         .then(response => response.text())
         .then(data => {
         //   setChatbotReply(data.response);
-            setMessages(messages.concat({ id: messages.length, text: data, type: 'Chatbot' }));
+            // let botResponse = data.substring(1, data.length - 1)
+            let chatBotResponse = { id: newUserMessage.id + 1, text: data, type: 'Chatbot' }
+            setMessages([...updatedMessages, chatBotResponse]);
             setPressable(true)
         });
         setPrompt('')
@@ -71,7 +67,8 @@ function ChatBot () {
                                 {message.type}
                             </div>
                             <div className={`${message.type}-message`}>
-                                {message.text}
+                                {/* {message.text} */}
+                                <div dangerouslySetInnerHTML={{ __html: message.text}} />
                             </div>
                             
                         </div>
