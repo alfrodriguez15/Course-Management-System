@@ -84,18 +84,19 @@ export default function BasicTabsEdit() {
     const [newSemesterName, setNewSemesterName] = React.useState('');
     const navigate = useNavigate();
 
-    React.useEffect(() => {
-        const fetchData = async () => {
-            const email = localStorage.getItem('user_email');
-            axios.post('http://localhost:5000/schedule', { email })
-                .then(response => {
-                    setData(response.data);
-                })
-                .catch(error => {
-                    console.error(error); // Log any errors that occur during the request
-                });
-        };
+    const fetchData = async () => {
+        const email = localStorage.getItem('user_email');
+        await axios.post('http://localhost:5000/schedule', { email })
+            .then(response => {
+                setData(response.data);
+                localStorage.setItem('semester', response.data[value]['semester']);
+            })
+            .catch(error => {
+                console.error(error); // Log any errors that occur during the request
+            });
+    };
 
+    React.useEffect(() => {
         fetchData();
     }, []);
 
@@ -117,6 +118,7 @@ export default function BasicTabsEdit() {
             .catch(error => {
                 console.error(error); // Log any errors that occur during the request
             });
+        fetchData();
         navigate('/schedule');
     };
 
@@ -130,11 +132,13 @@ export default function BasicTabsEdit() {
             .catch(error => {
                 console.error(error); // Log any errors that occur during the request
             });
+        fetchData();
         navigate('/schedule');
     };
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        localStorage.setItem('semester', data[newValue]['semester']);
     };
 
     console.log("from tabs", value);

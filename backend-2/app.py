@@ -30,15 +30,36 @@ def signup():
     email = data.get("email")
     password = data.get("password")
     confirm_password = data.get("confirmPassword")
-    role = data.get("role")
+    major = data.get("major")
     degree = data.get("degree")
     education = data.get("education")
     graduation_date = data.get("graduationDate")
+    
+    new_course = {
+        "crn": 0,
+        "subject": "",
+        "code": 0,
+        "name": "",
+        "section_type": "",
+        "modality": "",
+        "credit_hours": 0,
+        "capacity": 0,
+        "professor": "",
+        "days": "",
+        "begin_time": "",
+        "end_time": "",
+        "location": ""
+    }
+    
+    new_schedule = {
+        "semester": "",
+        "courses": [new_course]
+    }
 
     # Check if the email is already in use
     check_user = user_collection.find_one({"email": email})
 
-    if not name or not email or not password or not confirm_password or not role or not degree or not education or not graduation_date:
+    if not name or not email or not password or not confirm_password or not major or not degree or not education or not graduation_date:
         return jsonify({"message": "All fields must be filled out"}), 400
     elif password != confirm_password:
         return jsonify({"message": "Passwords do not match"}), 400
@@ -49,10 +70,11 @@ def signup():
             "name": name,
             "email": email,
             "password": password,
-            "role": role,
+            "major": major,
             "degree": degree,
             "education": education,
-            "graduation_date": graduation_date
+            "graduation_date": graduation_date,
+            "schedules": [new_schedule]
         })
         return jsonify({"message": "Signup successful"}), 200
 
@@ -80,6 +102,15 @@ def login():
     else:
         # User with the provided email not found
         return jsonify({"message": "Invalid username"}), 400
+    
+@app.route("/getprofile", methods=["POST"])
+@cross_origin()
+def getProfile():
+    data = request.json
+    email = data.get("user_email")
+    user = user_collection.find_one({"email": email})
+    user["_id"] = str(user["_id"])
+    return jsonify(user), 200
     
 @app.route("/addcourse", methods=["POST"])
 @cross_origin()
@@ -238,26 +269,10 @@ def add_schedule():
     data = request.json
     email = data.get('email')
     semester = data.get('newSemesterName')
-
-    new_course = {
-        "crn": 0,
-        "subject": "",
-        "code": 0,
-        "name": "",
-        "section_type": "",
-        "modality": "",
-        "credit_hours": 0,
-        "capacity": 0,
-        "professor": "",
-        "days": "",
-        "begin_time": "",
-        "end_time": "",
-        "location": ""
-    }
     
     new_schedule = {
         "semester": semester,
-        "courses": [new_course]
+        "courses": []
     }
     
     filter_criteria = {
@@ -298,7 +313,31 @@ def delete_schedule():
         return jsonify({"message": "Schedule not found"}), 404
     else:
         return jsonify({"message": "Schedule deleted"}), 200
-    
+
+@app.route("/editsemestername", methods=["POST"])
+@cross_origin()
+def edit_semester_name():
+    data = request.json
+    email = data.get('email')
+    old_semester = data.get('oldSemesterName')
+    new_semester = data.get('newSemesterName')
+
+    filter_criteria = {
+    'email': email,
+    'schedules.semester': old_semester
+    }
+
+    update_operation = {
+    '$set': {
+        'schedules.$.semester': new_semester
+    }
+    }
+
+    result = user_collection.update_one(filter_criteria, update_operation)
+    if result.modified_count == 0:
+        return jsonify({"message": "Semester not found"}), 404
+    else:
+        return jsonify({"message": "Semester name updated"}), 200
 
 @app.route("/analytics", methods=["POST"])
 @cross_origin()
@@ -374,6 +413,26 @@ def getSemester():
     # courseStr = ""
     # for c in courses:
     #     courseStr += "Name : " Course.get_Name(c)
+
+#Helper method to get the pathway from the user input
+def findPathway(question):
+    pathways = {
+        "Pathway 1A": [Pathway.PATH_1A], 
+        "Pathway 1F": [Pathway.PATH_1F],
+        "Pathway 2": [Pathway.PATH_2], 
+        "Pathway 3": [Pathway.PATH_3], 
+        "Pathway 4": [Pathway.PATH_4],
+        "Pathway 5A": [Pathway.PATH_5A], 
+        "Pathway 5F": [Pathway.PATH_5F],
+        "Pathway 6": [Pathway.PATH_6A],
+        "Pathway 6D":[Pathway.PATH_6D],
+        "Pathway 7":[Pathway.PATH_7]
+    }
+    question_lower = question.lower()
+    for pathway, abbreviation, in pathways.items():
+        if any(" " + pathway.lower() + " course" in question_lower for sub in pathway):
+            return abbreviation
+    return Pathway.ALL
 
 def findSubject(question):
     subjects = {
@@ -539,6 +598,7 @@ def searchCourses(subject):
     year = str(date.today().year) #NOTE: this, semester, section type, campus, etc should be able to change on suer input
     semester = getSemester()
     campus = Campus.BLACKSBURG
+    # pathway = findPathway()
     pathway = Pathway.ALL
     sectionType = SectionType.ALL
     code = ""
@@ -550,6 +610,7 @@ def searchCourses(subject):
     # print(courses)
     return courses
 
+#consider RAG approach
 @app.route('/chatbot', methods=['POST'])
 def chatbot():
     # Set up the model
@@ -585,8 +646,16 @@ def chatbot():
     chat = model.start_chat(history=[])
     instruction = """You are a chatbot assistant who helps the user by 
     showing appropriate courses based on their constraints such as course name, professor, subject, year, semester, campus and status
-    or credit hours. Please format the response in proper html format with as a div. Use headers, bold/italic text and different font sizes as needed
-    . Provide a suggestion for the following inquiry: """ #start by sending a welcome message and have a friendly welcoming tone."""
+    or credit hours. Include information such as professor, crn, course name, credit hours, and class time/days/location for every course you respond with 
+    (you can include any other information you believe is relevant). Please format the response in proper HTML format as a div. DO NOT RETURN ANY OTHER FORMAT. Apply this for your entire response. 
+    Use <strong> / <b> and <i> as needed for important information.
+    Per course, have something that looks like 
+    this line will have the Course Name (use <b> and <i> for it) (go into a new line for the next part)
+    This line is a small description saying why might someone want to take this course. have fun with it (go into a new line for the next part)
+    any relevant details in list form form like CRN, credit hours, professor etc. Use <b> to differentiate between data and title 
+    (base what you include here on previous instructions).
+    add an empty line between each course listed for readability. 
+    Provide a suggestion for the following inquiry: """ #start by sending a welcome message and have a friendly welcoming tone."""
     # response = chat.send_message(instruction)
     # print(f"Chatbot: {response.text}")
     # print('\n')
@@ -597,6 +666,12 @@ def chatbot():
     question = instruction + userInput
 
     subject = findSubject(question)
+    #subject not necessary, could make it CRN or pathway as well?
+    #also, need to find a way to make it so that it can get courses from more than 1 subject. This might 
+    #be very time consuming tho. Might keep it as is for now (also could implement streaming for a response that might look faster)
+    #Possibly send a different prompt that just returns a list of all the subjects the chatbot needs to fulfill a request
+    #based on that, have it make different queries to the list while it still has subjects it needs. It can probably look through the
+    #list and determine which abbreviations fit what is being asked for
     if subject:
         courses = searchCourses(subject)
         courseStr = ""
@@ -610,11 +685,31 @@ def chatbot():
             cYear = Course.get_year(c)
             cSemester = Course.get_semester(c)
             cCredits = Course.get_credit_hours(c)
-            # crn = Course.get_crn(c) # added
+            crn = Course.get_crn(c) # added
+            schedule = Course.get_schedule(c)
             #use schedule_keys thing to get days here
             #use something similar for modality
+            schedule_keys = list(schedule.keys())
+            days_list = []
+            new_dict = {"Days": [], "Begin": "", "End": "", "Location": ""}
+            for s in schedule_keys:
+                days_list.append(s.name)
+                value = Course.get_schedule(c)[s]
+                for v in value:
+                    new_dict["Begin"] = v[0]
+                    new_dict["End"] = v[1]
+                    new_dict["Location"] = v[2]
+            new_dict["Days"] = days_list
+            # c["schedule"] = new_dict
+            # days = new_dict.get("Days")[0] + ", " + new_dict.get("Days")[1]
+            days = ' '.join([str(elem) for elem in days_list])
+            begins = new_dict.get("Begin")
+            ends = new_dict.get("End")
+            classTime = "from " + begins + " to " + ends
+            location = new_dict.get("Location")
+            
             #
-            courseStr += "| Name: " + cName + "| Professor: " + cProfessor + "| Semester: Fall" + " " + cYear + "| Credit Hours: " + cCredits +"\n" #+ "| CRN: " + crn 
+            courseStr += "| Name: " + cName + "| Professor: " + cProfessor + "| Semester: Fall" + " " + cYear + "| Credit Hours: " + cCredits  + "| CRN: " + crn + "|Days and time" + days + classTime + "|Location: " + location + "\n"
             #string above was definitely modified   
             # print(courseStr)     
         question += ". You can use the following data to provide 5 distinct results that fit the request(unless they ask for different sections of the same course). If they ask for  a schedule only provide 1: " + courseStr
@@ -624,7 +719,6 @@ def chatbot():
     # print(f"Chatbot: {response.text}")
     # print('\n')
     return response.text
-
 
 if __name__ == "__main__":
     app.secret_key = os.environ.get("SECRET_KEY")

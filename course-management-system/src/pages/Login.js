@@ -31,6 +31,7 @@ function Login() {
             .then(response => {
                 console.log(response.data); // Log the response from the backend
                 localStorage.setItem('user_email', username);
+                localStorage.setItem('user_name', response.data.name);
                 navigate('/student', { state: { userData: response.data } });
             })
             .catch(error => {
@@ -53,6 +54,8 @@ function Login() {
         })
             .then(response => {
                 console.log(response.data); // Log the response from the backend
+                localStorage.setItem('user_email', email);
+                localStorage.setItem('user_name', name);
                 navigate('/student', { state: { userData: response.data } });
             })
             .catch(error => {
@@ -123,7 +126,7 @@ function Login() {
                             <input
                                 type="major"
                                 placeholder="Major *"
-                                value={email}
+                                value={major}
                                 onChange={(e) => setMajor(e.target.value)}
                             />
                             <select
@@ -131,23 +134,23 @@ function Login() {
                                 onChange={(e) => setDegree(e.target.value)}
                             >
                                 <option value="">Select Degree *</option>
-                                <option value="highschool">Associate's Degree</option>
-                                <option value="bachelors">Bachelor's Degree</option>
-                                <option value="masters">Master's Degree</option>
-                                <option value="phd">PhD</option>
+                                <option value="Associate's Degree">Associate's Degree</option>
+                                <option value="Bachelor's Degree">Bachelor's Degree</option>
+                                <option value="Master's Degree">Master's Degree</option>
+                                <option value="phDoctoral Degree (Ph.D.)">Doctoral Degree (Ph.D.)</option>
                             </select>
                             <select
                                 value={education}
                                 onChange={(e) => setEducation(e.target.value)}
                             >
                                 <option value="">Select Education *</option>
-                                <option value="Ag&LS">College of Agriculture and Life Sciences</option>
-                                <option value="ArchArtDsgn">College of Architecture, Arts, and Design</option>
-                                <option value="Business">Pamplin College of Business</option>
-                                <option value="Engineering">College of Engineering</option>
-                                <option value="LibArts&HS">College of Liberal Arts and Human Sciences</option>
-                                <option value="NS&Env">College of Natural Resources and Environment</option>
-                                <option value="Sscience">College of Science</option>
+                                <option value="College of Agriculture and Life Sciences">College of Agriculture and Life Sciences</option>
+                                <option value="College of Architecture, Arts, and Design">College of Architecture, Arts, and Design</option>
+                                <option value="Pamplin College of Business">Pamplin College of Business</option>
+                                <option value="College of Engineering">College of Engineering</option>
+                                <option value="College of Liberal Arts and Human Sciences">College of Liberal Arts and Human Sciences</option>
+                                <option value="College of Natural Resources and Environment">College of Natural Resources and Environment</option>
+                                <option value="College of Science">College of Science</option>
                             </select>
 
                             <span>Graduation Date: </span>

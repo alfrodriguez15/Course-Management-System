@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import { styled, ThemeProvider, createTheme } from '@mui/material/styles';
 import Divider from '@mui/material/Divider';
@@ -13,16 +13,15 @@ import Email from '@mui/icons-material/Email';
 import School from '@mui/icons-material/School';
 import Work from '@mui/icons-material/Work';
 import CalendarToday from '@mui/icons-material/CalendarToday';
-import './Profile.css'
-
-//data of user info goes in here
-const data = [
-    { icon: <People />, label: 'Insert user name here' },
-    { icon: <Work />, label: 'Major' },
-    { icon: <Email />, label: 'Email' },
-    { icon: <School />, label: 'Education' },
-    { icon: <CalendarToday />, label: 'Graduation Date' },
-];
+import EditIcon from '@mui/icons-material/Edit';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import axios from 'axios';
+import './Profile.css';
 
 const FireNav = styled(List)({
     '& .MuiListItemButton-root': {
@@ -39,11 +38,65 @@ const FireNav = styled(List)({
 });
 
 export default function ProfileList() {
-    const [open, setOpen] = React.useState(true);
+    const [open, setOpen] = useState(true);
+    const [userData, setUserData] = useState(null); // Initialize user data state as null
+    const [editOpen, setEditOpen] = useState(false);
+    const [editedUserData, setEditedUserData] = useState({});
+    const user_email = localStorage.getItem('user_email');
+
+    const data = [
+        { icon: <People />, label: 'name' },
+        { icon: <Email />, label: 'email' },
+        { icon: <Work />, label: 'degree' },
+        { icon: <School />, label: 'education' },
+        { icon: <CalendarToday />, label: 'graduation_date' },
+    ];
+
+    const fetchData = async () => {
+        try {
+            const response = await axios.post('http://localhost:5000/getprofile', {
+                user_email: user_email
+            });
+            setUserData(response.data);
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []); // Fetch data only once on component mount
 
     // Function to prevent default behavior (clicking)
     const preventDefaultClick = (event) => {
         event.preventDefault();
+    };
+
+    const handleEditOpen = () => {
+        setEditedUserData(userData); // Initialize editedUserData with current userData
+        setEditOpen(true);
+    };
+
+    const handleEditClose = () => {
+        setEditOpen(false);
+    };
+
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setEditedUserData({ ...editedUserData, [name]: value });
+    };
+
+    const handleSaveChanges = async () => {
+        try {
+            await axios.post('http://localhost:5000/editprofile', {
+                user_email: user_email,
+                editedUserData: editedUserData
+            });
+            setUserData(editedUserData); // Update userData with editedUserData
+            setEditOpen(false);
+        } catch (error) {
+            console.error('Error saving changes:', error);
+        }
     };
 
     return (
@@ -78,10 +131,26 @@ export default function ProfileList() {
                         width: '50%'
                     }}>
                         <FireNav component="nav" disablePadding>
-                            <ListItemButton component="a" href="#customized-list" >
-                                <ListItemIcon sx={{ fontSize: 20 }}>🔥</ListItemIcon>
+                            <ListItemButton component="a" onClick={handleEditOpen}>
+                                <ListItemIcon sx={{ fontSize: 20 }}> {/* Set icon color to maroon */}
+                                    🖋️
+                                </ListItemIcon>
                                 <ListItemText
                                     sx={{ my: 0 }}
+                                    primary="Edit Account"
+                                    primaryTypographyProps={{
+                                        fontSize: 20,
+                                        fontWeight: 'medium',
+                                        letterSpacing: 0,
+                                    }}
+                                />
+                            </ListItemButton>
+                            <ListItemButton component="a" href="#customized-list" >
+                                <ListItemIcon sx={{ fontSize: 20, color: 'rgb(134, 31, 65)' }}>
+                                    🗂️
+                                </ListItemIcon>
+                                <ListItemText
+                                    sx={{ my: 0, color: 'rgb(134, 31, 65)' }}
                                     primary="My Account"
                                     primaryTypographyProps={{
                                         fontSize: 20,
@@ -90,8 +159,6 @@ export default function ProfileList() {
                                     }}
                                 />
                             </ListItemButton>
-                            <Divider />
-
                             <Divider />
                             <Box
                                 sx={{
@@ -116,7 +183,7 @@ export default function ProfileList() {
 
                                 </ListItemButton>
                                 {
-                                    data.map((item) => (
+                                    userData && data.map((item) => (
                                         <ListItemButton
                                             key={item.label}
                                             sx={{ py: 0, minHeight: 32, color: 'rgba(255,255,255,.8)' }}
@@ -126,7 +193,7 @@ export default function ProfileList() {
                                                 {item.icon}
                                             </ListItemIcon>
                                             <ListItemText
-                                                primary={item.label}
+                                                primary={userData[item.label.toLowerCase()]}
                                                 primaryTypographyProps={{ fontSize: 14, fontWeight: 'medium' }}
                                             />
                                         </ListItemButton>
@@ -136,6 +203,112 @@ export default function ProfileList() {
                     </Paper>
                 </ThemeProvider>
             </Box>
+
+            {/* Edit Account Dialog */}
+            <Dialog open={editOpen} onClose={handleEditClose}>
+                <DialogTitle>Edit Account</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="name"
+                        name="name"
+                        label="Name"
+                        type="text"
+                        fullWidth
+                        value={editedUserData.name}
+                        onChange={handleInputChange}
+                    />
+                    <TextField
+                        margin="dense"
+                        id="email"
+                        name="email"
+                        label="Email Address"
+                        type="email"
+                        fullWidth
+                        value={editedUserData.email}
+                        onChange={handleInputChange}
+                    />
+                    <TextField
+                        margin="dense"
+                        id="password"
+                        name="password"
+                        label="Password"
+                        type="text"
+                        fullWidth
+                        value={editedUserData.password}
+                        onChange={handleInputChange}
+                    />
+                    <TextField
+                        margin="dense"
+                        id="major"
+                        name="major"
+                        label="Major"
+                        type="text"
+                        fullWidth
+                        value={editedUserData.major}
+                        onChange={handleInputChange}
+                    />
+                    <div>
+                        <span>Degree: </span>
+                        <select
+                            margin="dense"
+                            id="degree"
+                            name="degree"
+                            label="degree"
+                            type="text"
+                            fullWidth
+                            value={editedUserData.degree}
+                            onChange={handleInputChange}
+                        >
+                            <option value="">Select Degree *</option>
+                            <option value="Associate's Degree">Associate's Degree</option>
+                            <option value="Bachelor's Degree">Bachelor's Degree</option>
+                            <option value="Master's Degree">Master's Degree</option>
+                            <option value="phDoctoral Degree (Ph.D.)">Doctoral Degree (Ph.D.)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <span>Education: </span>
+                        <select
+                            margin="dense"
+                            id="education"
+                            name="education"
+                            label="Education"
+                            type="text"
+                            fullWidth
+                            value={editedUserData.education}
+                            onChange={handleInputChange}
+                        >
+                            <option value="">Select Education *</option>
+                            <option value="College of Agriculture and Life Sciences">College of Agriculture and Life Sciences</option>
+                            <option value="College of Architecture, Arts, and Design">College of Architecture, Arts, and Design</option>
+                            <option value="Pamplin College of Business">Pamplin College of Business</option>
+                            <option value="College of Engineering">College of Engineering</option>
+                            <option value="College of Liberal Arts and Human Sciences">College of Liberal Arts and Human Sciences</option>
+                            <option value="College of Natural Resources and Environment">College of Natural Resources and Environment</option>
+                            <option value="College of Science">College of Science</option>
+                        </select>
+                    </div>
+                    <div>
+                        <span>Graduation Date: </span>
+                        <input
+                            margin="dense"
+                            id="graduation_date"
+                            name="graduation_date"
+                            label="Graduation Date"
+                            type="month"
+                            fullWidth
+                            value={editedUserData.graduation_date}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleEditClose}>Cancel</Button>
+                    <Button onClick={handleSaveChanges}>Save Changes</Button>
+                </DialogActions>
+            </Dialog>
         </>
     );
 }
