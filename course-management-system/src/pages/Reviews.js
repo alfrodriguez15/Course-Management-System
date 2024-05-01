@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Paper, Rating } from '@mui/material';
 import Navbar from '../components/Navbar'
+import './Reviews.css';
 
 function Reviews() {
     const [feedback, setFeedback] = useState([]);
@@ -21,9 +22,9 @@ function Reviews() {
         <div className="reviews-page">
             <Navbar />
             <Box sx={{ textAlign: 'center', padding: '20px' }}>
-                <Typography variant="h4" gutterBottom>
-                    Feedback from our users
-                </Typography>
+                <div className='reviews-title'>
+                    <h1>Feedback from our Users</h1>
+                </div>
                 {/* Render feedback data */}
                 {feedback.map((item, index) => (
                     <Box key={index} sx={{ mb: 2 }}>

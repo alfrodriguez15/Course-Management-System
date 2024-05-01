@@ -1,15 +1,16 @@
 .student-page {
     width: 100%;
-    height: 100vh;
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .video-container {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
-    height: 100%;
+    height: 100vh;
+    position: relative;
+    margin-bottom: -200px;
+    
 }
 
 .video {
@@ -19,25 +20,48 @@
 }
 
 .student-text {
+    font-size: 2rem;
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
+    text-shadow: 3px 3px #ffffff;
     position: absolute;
     width: 100%;
     top: 40%;
     transform: translateY(-50%);
     text-align: center;
-    font-family: 'Roboto', sans-serif;
-    font-size: 2em; /* Adjust the font size as needed */
-    font-weight: 700; /* Use a thicker font weight */
     color: maroon;
-    opacity: 0; /* Initially hide the content */
-    animation: fadeIn 1s ease forwards; /* Apply the fadeIn animation */
+    opacity: 0;
+    /* Initially hide the content */
+    animation: fadeIn 1s ease forwards;
+    /* Apply the fadeIn animation */
 }
 
 @keyframes fadeIn {
     from {
-        opacity: 0; /* Start with opacity 0 */
+        opacity: 0;
+        /* Start with opacity 0 */
     }
+
     to {
-        opacity: 1; /* Fade in to full opacity */
+        opacity: 1;
+        /* Fade in to full opacity */
     }
 }
 
+.img-wrapper {
+    border-top: 4px solid rgba(117, 120, 123, 0.5);
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+.img-container {
+    display: flex;
+}
+
+.homepage-image {
+    width: 550px;
+    height: auto;
+    margin: 0 20px;
+}

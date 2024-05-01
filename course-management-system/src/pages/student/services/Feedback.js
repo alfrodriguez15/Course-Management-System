@@ -96,7 +96,7 @@ export default function Feedback() {
                 </Box>
                 {feedbackMessage && <p className="error">{feedbackMessage}</p>}
                 {/* Submit Button */}
-                <Button variant="contained" color="primary" onClick={handleClickSubmit}>
+                <Button variant="contained" style={{ backgroundColor: '#861F41', color: 'white' }}  onClick={handleClickSubmit}>
                     Submit
                 </Button>
             </Box>

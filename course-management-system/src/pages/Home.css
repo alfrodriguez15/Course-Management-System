@@ -1,121 +1,96 @@
-
-/* Homepage description, title, buttons, overall layout */
-
 .home {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  position: relative; /* Ensure proper positioning for absolute elements */
   width: 100%;
   background-color: rgb(255, 255, 255);
 }
 
-
-
-/* Homepage image */
-
 .homepage-image {
-  width: 100%;
-  height: 70vh; /* Set the height to 100% of the viewport height */
-  object-fit: cover;
-  /*filter: blur(3px); */
-  margin-bottom: 50px;
-}
-
-
-/* Styles for the container that holds the text */
-.text-container {
-  position: absolute;
-  top: 40%; /* Adjust the top position to center the text */
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1; /* Ensure the text appears above the image */
-  text-align: center;
-}
-
-/* Styles for the text */
-.title {
-  color: white;
-  font-size: 3rem;
-  font-weight: bold;
-  font-family: 'Roboto', sans-serif;
-}
-
-.title-2 {
-  color: white;
-  font-size: 2rem;
-  font-weight: bold;
-  font-family: 'Roboto', sans-serif;
-}
-
-
-
-.home-buttons-container {
-  display: flex;
-  padding: 1rem;
-  gap: 2rem;
-}
-
-
-.home-button {
-  flex: 1;
-  background-color: rgb(134, 31, 65);
+  width: 100%; /* Make sure the image fills the container horizontally */
+  height: 150px; /* Set the desired height */
+  object-fit: cover; /* Maintain aspect ratio and cover the container */
   margin-bottom: 20px;
 }
 
+/* Styles for the slider */
+.slick-slider {
+  width: 100%;
+  margin-bottom: 50px;
+}
+
+.slick-slide img {
+  width: 100%;
+  height: auto;
+}
+
+/* Text container styles */
+.text-container {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 1;
+}
+
+.title {
+  color: rgb(134, 31, 65);
+  font-size: 3rem;
+  font-weight: bold;
+  font-family: 'Roboto', sans-serif;
+  text-shadow:  3px 3px #ffffff;
+}
+
+.title-2 {
+  color: rgb(134, 31, 65);
+  font-size: 2rem;
+  font-weight: bold;
+  font-family: 'Roboto', sans-serif;
+  text-shadow:  2px 2px #ffffff;
+}
 
 
+
+/* Offer section styles */
 .offer-section {
-  margin-top: 10px; /* Adjust margin as needed */
+  margin-top: 10px;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
 }
 
 .offer-section h2 {
   font-size: 24px;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
-
-
-
-/* Homepage icons */
-
-
+/* Icon container styles */
 .icon-img-container {
   display: flex;
-  justify-content: space-around; /* Adjust alignment as needed */
+  justify-content: space-around;
   align-items: flex-end;
-
   margin-bottom: 60px;
-  /* adjust space between icon and text */
 }
 
 .icon-img {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-right: 400px;
-  /* Adjust the spacing between icons */
 }
 
 .icon-img:last-child {
-  margin-right: 0;
   margin-bottom: 10px;
-  /* Remove margin for the last icon to prevent extra space */
 }
 
-
+/* Icon text styles */
 .icon-text {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-right: 350px;
-  /* Adjust the spacing between icons */
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
 }
 
 .icon-text:last-child {
-  margin-right: 0;
   margin-bottom: 10px;
-  /* Remove margin for the last icon to prevent extra space */
 }
 
 .icon-texts-section {
@@ -125,9 +100,11 @@
 }
 
 .icon-texts-section .icon-text {
-  width: 200px; /* Adjust width as needed */
+  width: 200px;
+  /* Adjust width as needed */
 }
 
 .icon-texts-section .icon-text p:first-child {
-  font-weight: bold; /* Make the first paragraph bold */
+  font-weight: bold;
+  /* Make the first paragraph bold */
 }
