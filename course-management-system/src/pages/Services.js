@@ -7,7 +7,7 @@ import { Container, Row, Col, Card } from 'react-bootstrap';
 import timetableImage from '../images/timetable.jpg';
 import analyticsImage from '../images/analytics.jpg';
 import courseScheduleImage from '../images/course_schedule.jpg';
-import chatbotImage from '../images/chatbot.jpg';
+import chatbotImage from '../images/chatbot.png';
 
 function Services() {
     return (
