@@ -27,6 +27,8 @@ function Student(props) {
         }
     }, [location.state]);
 
+    const user_email = localStorage.getItem('user_email');
+
     return (
         <>
             <Sidebar />
@@ -35,7 +37,7 @@ function Student(props) {
                     <video src={videoBg} autoPlay loop muted className="video" />
                 </div>
                 <div className="student-text">
-                    <h1>Welcome {userData.name} to the student page!</h1>
+                    <h1>Welcome {user_email} to the student page!</h1>
                     <p>Navigate our resourses using the Sidebar Menu</p>
                 </div>
 
