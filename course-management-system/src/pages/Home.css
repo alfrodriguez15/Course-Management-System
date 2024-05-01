@@ -1,14 +1,20 @@
 .home {
-  position: relative; /* Ensure proper positioning for absolute elements */
+  position: relative;
+  /* Ensure proper positioning for absolute elements */
   width: 100%;
   background-color: rgb(255, 255, 255);
 }
 
 .homepage-image {
-  width: 100%; /* Make sure the image fills the container horizontally */
-  height: 150px; /* Set the desired height */
-  object-fit: cover; /* Maintain aspect ratio and cover the container */
+  width: 100%;
+  /* Make sure the image fills the container horizontally */
+  height: 150px;
+  /* Set the desired height */
+  object-fit: cover;
+  /* Maintain aspect ratio and cover the container */
   margin-bottom: 20px;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
 }
 
 /* Styles for the slider */
@@ -37,7 +43,7 @@
   font-size: 3rem;
   font-weight: bold;
   font-family: 'Roboto', sans-serif;
-  text-shadow:  3px 3px #ffffff;
+  text-shadow: 3px 3px #ffffff;
 }
 
 .title-2 {
@@ -45,7 +51,7 @@
   font-size: 2rem;
   font-weight: bold;
   font-family: 'Roboto', sans-serif;
-  text-shadow:  2px 2px #ffffff;
+  text-shadow: 2px 2px #ffffff;
 }
 
 

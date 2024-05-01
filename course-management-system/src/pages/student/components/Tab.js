@@ -9,6 +9,13 @@ import Button from 'react-bootstrap/esm/Button';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Col from 'react-bootstrap/esm/Col';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import TextField from '@mui/material/TextField';
+import { useNavigate } from 'react-router-dom';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -57,6 +64,9 @@ function a11yProps(index) {
 export default function BasicTabs() {
   const [value, setValue] = React.useState(0);
   const [data, setData] = React.useState([]);
+  const [open, setOpen] = React.useState(false);
+  const [newSemesterName, setNewSemesterName] = React.useState('');
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -69,7 +79,6 @@ export default function BasicTabs() {
           console.error(error); // Log any errors that occur during the request
         });
     };
-
     fetchData();
   }, []);
 
@@ -77,17 +86,48 @@ export default function BasicTabs() {
     setValue(newValue);
   };
 
+  const handleNewSchedule = () => {
+    setOpen(true); // Open the dialog when New Schedule is clicked
+  };
+
+  const handleClose = () => {
+    setOpen(false); // Close the dialog
+  };
+
+  const handleSave = () => {
+    setOpen(false); // Close the dialog
+    const email = localStorage.getItem('user_email');
+    axios.post('http://localhost:5000/addschedule', { email, newSemesterName })
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error(error); // Log any errors that occur during the request
+      });
+    navigate('/editSchedule');
+  };
+
   return (
 
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          {
-            data && data.map((element, i) => {
-              return <Tab label={element['semester']} {...a11yProps(i)} />
-            })
-          }
-        </Tabs>
+        {
+          data.length > 0 ?
+            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+              {
+                data && data.map((element, i) => {
+                  return <Tab label={element['semester']} {...a11yProps(i)} />
+                })
+              }
+            </Tabs> : <Button
+              className='find-button'
+              variant="primary"
+              style={{ margin: '10px', backgroundColor: 'orange' }}
+              onClick={handleNewSchedule}
+            >
+              Create New Schedule
+            </Button>
+        }
       </Box>
       {
         data && data.map((element, i) => {
@@ -96,6 +136,28 @@ export default function BasicTabs() {
           </CustomTabPanel>)
         })
       }
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>New Semester</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Please enter the name of the semester:
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="semesterName"
+            label="Semester Name"
+            type="text"
+            fullWidth
+            value={newSemesterName}
+            onChange={(e) => setNewSemesterName(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleSave}>Save</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

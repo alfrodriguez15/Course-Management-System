@@ -269,26 +269,10 @@ def add_schedule():
     data = request.json
     email = data.get('email')
     semester = data.get('newSemesterName')
-
-    new_course = {
-        "crn": 0,
-        "subject": "",
-        "code": 0,
-        "name": "",
-        "section_type": "",
-        "modality": "",
-        "credit_hours": 0,
-        "capacity": 0,
-        "professor": "",
-        "days": "",
-        "begin_time": "",
-        "end_time": "",
-        "location": ""
-    }
     
     new_schedule = {
         "semester": semester,
-        "courses": [new_course]
+        "courses": []
     }
     
     filter_criteria = {
