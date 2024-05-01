@@ -62,15 +62,17 @@
     align-self:flex-end;
     text-align:end;
     margin-right:5px;
-    width: 50%;
+    width:auto;
+    max-width: 45%;
 }
 .User-message {
     position:relative;
     color:white;
     /* align-self:flex-end; */
     /* margin-right:5px;  */
-    text-align:left;
     border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
     height: auto;
     background-color: #861F41;
     font-weight:normal;
@@ -81,7 +83,7 @@
     align-self:flex-start;
     align-items: flex-start;
     margin-left:5px;
-    width: 50%;
+    width: 45%;
 }
 .Chatbot-message {
     position:relative;
