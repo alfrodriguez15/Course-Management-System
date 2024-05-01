@@ -92,6 +92,7 @@ export default function ProfileList() {
                 user_email: user_email,
                 editedUserData: editedUserData
             });
+            localStorage.setItem('user_email', editedUserData.email); // Update user_name in localStorage (if changed
             setUserData(editedUserData); // Update userData with editedUserData
             setEditOpen(false);
         } catch (error) {

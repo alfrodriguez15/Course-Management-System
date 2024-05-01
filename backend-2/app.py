@@ -34,27 +34,6 @@ def signup():
     degree = data.get("degree")
     education = data.get("education")
     graduation_date = data.get("graduationDate")
-    
-    new_course = {
-        "crn": 0,
-        "subject": "",
-        "code": 0,
-        "name": "",
-        "section_type": "",
-        "modality": "",
-        "credit_hours": 0,
-        "capacity": 0,
-        "professor": "",
-        "days": "",
-        "begin_time": "",
-        "end_time": "",
-        "location": ""
-    }
-    
-    new_schedule = {
-        "semester": "",
-        "courses": [new_course]
-    }
 
     # Check if the email is already in use
     check_user = user_collection.find_one({"email": email})
@@ -74,7 +53,7 @@ def signup():
             "degree": degree,
             "education": education,
             "graduation_date": graduation_date,
-            "schedules": [new_schedule]
+            "schedules": []
         })
         return jsonify({"message": "Signup successful"}), 200
 
@@ -102,6 +81,35 @@ def login():
     else:
         # User with the provided email not found
         return jsonify({"message": "Invalid username"}), 400
+    
+@app.route("/editprofile", methods=["POST"])
+@cross_origin()
+def editProfile():
+    data = request.json
+    email = data.get("user_email")
+    edited_data = data.get("editedUserData")
+    
+    filter_criteria = {
+    'email': email,
+    }
+
+    update_operation = {
+    '$set': {
+        'name': edited_data.get("name"),
+        'email': edited_data.get("email"),
+        'password': edited_data.get("password"),
+        'major': edited_data.get("major"),
+        'degree': edited_data.get("degree"),
+        'education': edited_data.get("education"),
+        'graduation_date': edited_data.get("graduation_date")
+    }
+    }
+
+    result = user_collection.update_one(filter_criteria, update_operation)
+    if result.modified_count == 0:
+        return jsonify({"message": "User not found"}), 404
+    else:
+        return jsonify({"message": "Profile updated"}), 200
     
 @app.route("/getprofile", methods=["POST"])
 @cross_origin()
