@@ -36,7 +36,6 @@ function EditSchedule() {
           // Implement your "need help" functionality here
         }}
       >
-        <HelpIcon />
       </IconButton>
     </div>
   );

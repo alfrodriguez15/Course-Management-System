@@ -30,15 +30,36 @@ def signup():
     email = data.get("email")
     password = data.get("password")
     confirm_password = data.get("confirmPassword")
-    role = data.get("role")
+    major = data.get("major")
     degree = data.get("degree")
     education = data.get("education")
     graduation_date = data.get("graduationDate")
+    
+    new_course = {
+        "crn": 0,
+        "subject": "",
+        "code": 0,
+        "name": "",
+        "section_type": "",
+        "modality": "",
+        "credit_hours": 0,
+        "capacity": 0,
+        "professor": "",
+        "days": "",
+        "begin_time": "",
+        "end_time": "",
+        "location": ""
+    }
+    
+    new_schedule = {
+        "semester": "",
+        "courses": [new_course]
+    }
 
     # Check if the email is already in use
     check_user = user_collection.find_one({"email": email})
 
-    if not name or not email or not password or not confirm_password or not role or not degree or not education or not graduation_date:
+    if not name or not email or not password or not confirm_password or not major or not degree or not education or not graduation_date:
         return jsonify({"message": "All fields must be filled out"}), 400
     elif password != confirm_password:
         return jsonify({"message": "Passwords do not match"}), 400
@@ -49,10 +70,11 @@ def signup():
             "name": name,
             "email": email,
             "password": password,
-            "role": role,
+            "major": major,
             "degree": degree,
             "education": education,
-            "graduation_date": graduation_date
+            "graduation_date": graduation_date,
+            "schedules": [new_schedule]
         })
         return jsonify({"message": "Signup successful"}), 200
 
@@ -80,6 +102,15 @@ def login():
     else:
         # User with the provided email not found
         return jsonify({"message": "Invalid username"}), 400
+    
+@app.route("/getprofile", methods=["POST"])
+@cross_origin()
+def getProfile():
+    data = request.json
+    email = data.get("user_email")
+    user = user_collection.find_one({"email": email})
+    user["_id"] = str(user["_id"])
+    return jsonify(user), 200
     
 @app.route("/addcourse", methods=["POST"])
 @cross_origin()
@@ -298,7 +329,31 @@ def delete_schedule():
         return jsonify({"message": "Schedule not found"}), 404
     else:
         return jsonify({"message": "Schedule deleted"}), 200
-    
+
+@app.route("/editsemestername", methods=["POST"])
+@cross_origin()
+def edit_semester_name():
+    data = request.json
+    email = data.get('email')
+    old_semester = data.get('oldSemesterName')
+    new_semester = data.get('newSemesterName')
+
+    filter_criteria = {
+    'email': email,
+    'schedules.semester': old_semester
+    }
+
+    update_operation = {
+    '$set': {
+        'schedules.$.semester': new_semester
+    }
+    }
+
+    result = user_collection.update_one(filter_criteria, update_operation)
+    if result.modified_count == 0:
+        return jsonify({"message": "Semester not found"}), 404
+    else:
+        return jsonify({"message": "Semester name updated"}), 200
 
 @app.route("/analytics", methods=["POST"])
 @cross_origin()

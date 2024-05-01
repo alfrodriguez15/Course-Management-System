@@ -39,7 +39,7 @@ function Sidebar() {
               onClick={handleMenu}
               color="white"
             >
-              <AccountCircle />
+              <AccountCircle style={{ fontSize: 35 }} />
             </IconButton>
             <Menu
               id="menu-appbar"
