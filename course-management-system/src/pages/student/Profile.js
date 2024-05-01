@@ -249,41 +249,60 @@ export default function ProfileList() {
                         value={editedUserData.major}
                         onChange={handleInputChange}
                     />
-                    <select
-                        margin="dense"
-                        id="education"
-                        name="education"
-                        label="Education"
-                        type="text"
-                        fullWidth
-                        value={editedUserData.education}
-                        onChange={handleInputChange}
-                    >
-                        <option value="">Select Degree *</option>
-                        <option value="Associate's Degree">Associate's Degree</option>
-                        <option value="Bachelor's Degree">Bachelor's Degree</option>
-                        <option value="Master's Degree">Master's Degree</option>
-                        <option value="phDoctoral Degree (Ph.D.)">Doctoral Degree (Ph.D.)</option>
-                    </select>
-                    <select
-                        margin="dense"
-                        id="education"
-                        name="education"
-                        label="Education"
-                        type="text"
-                        fullWidth
-                        value={editedUserData.education}
-                        onChange={handleInputChange}
-                    >
-                        <option value="">Select Education *</option>
-                        <option value="College of Agriculture and Life Sciences">College of Agriculture and Life Sciences</option>
-                        <option value="College of Architecture, Arts, and Design">College of Architecture, Arts, and Design</option>
-                        <option value="Pamplin College of Business">Pamplin College of Business</option>
-                        <option value="College of Engineering">College of Engineering</option>
-                        <option value="College of Liberal Arts and Human Sciences">College of Liberal Arts and Human Sciences</option>
-                        <option value="College of Natural Resources and Environment">College of Natural Resources and Environment</option>
-                        <option value="College of Science">College of Science</option>
-                    </select>
+                    <div>
+                        <span>Degree: </span>
+                        <select
+                            margin="dense"
+                            id="degree"
+                            name="degree"
+                            label="degree"
+                            type="text"
+                            fullWidth
+                            value={editedUserData.degree}
+                            onChange={handleInputChange}
+                        >
+                            <option value="">Select Degree *</option>
+                            <option value="Associate's Degree">Associate's Degree</option>
+                            <option value="Bachelor's Degree">Bachelor's Degree</option>
+                            <option value="Master's Degree">Master's Degree</option>
+                            <option value="phDoctoral Degree (Ph.D.)">Doctoral Degree (Ph.D.)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <span>Education: </span>
+                        <select
+                            margin="dense"
+                            id="education"
+                            name="education"
+                            label="Education"
+                            type="text"
+                            fullWidth
+                            value={editedUserData.education}
+                            onChange={handleInputChange}
+                        >
+                            <option value="">Select Education *</option>
+                            <option value="College of Agriculture and Life Sciences">College of Agriculture and Life Sciences</option>
+                            <option value="College of Architecture, Arts, and Design">College of Architecture, Arts, and Design</option>
+                            <option value="Pamplin College of Business">Pamplin College of Business</option>
+                            <option value="College of Engineering">College of Engineering</option>
+                            <option value="College of Liberal Arts and Human Sciences">College of Liberal Arts and Human Sciences</option>
+                            <option value="College of Natural Resources and Environment">College of Natural Resources and Environment</option>
+                            <option value="College of Science">College of Science</option>
+                        </select>
+                    </div>
+                    <div>
+                        <span>Graduation Date: </span>
+                        <input
+                            margin="dense"
+                            id="graduation_date"
+                            name="graduation_date"
+                            label="Graduation Date"
+                            type="month"
+                            fullWidth
+                            value={editedUserData.graduation_date}
+                            onChange={handleInputChange}
+                        />
+                    </div>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleEditClose}>Cancel</Button>

@@ -51,9 +51,6 @@ function Services() {
                     </Row>
                 </Container>
             </div>
-            <Link to="/feedback" className='feedback-button'>
-                <Button variant="secondary" size='lg'>Give Us Feedback</Button>
-            </Link>
         </>
     )
 }

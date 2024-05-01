@@ -8,6 +8,8 @@ import videoBg from './video/vt_course_video.mp4';
 import scheduleImage from '../../images/help_schedule.PNG';
 import courseImage from '../../images/help_course.PNG';
 import chatbotImage from '../../images/help_chatbot.PNG';
+import Button from 'react-bootstrap/Button';
+import { Link } from 'react-router-dom';
 
 function Student(props) {
     const location = useLocation(); // Get the location object
@@ -27,7 +29,7 @@ function Student(props) {
         }
     }, [location.state]);
 
-    const user_email = localStorage.getItem('user_email');
+    const user_name = localStorage.getItem('user_name');
 
     return (
         <>
@@ -37,7 +39,7 @@ function Student(props) {
                     <video src={videoBg} autoPlay loop muted className="video" />
                 </div>
                 <div className="student-text">
-                    <h1>Welcome {user_email} to the student page!</h1>
+                    <h1>Welcome {user_name} to the student page!</h1>
                     <p>Navigate our resourses using the Sidebar Menu</p>
                 </div>
 
@@ -49,7 +51,9 @@ function Student(props) {
                     </div>
                 </div>
             </div>
-
+            <Link to="/feedback" className='feedback-button'>
+                <Button variant="secondary" size='lg'>Give Us Feedback</Button>
+            </Link>
         </>
     );
 }
