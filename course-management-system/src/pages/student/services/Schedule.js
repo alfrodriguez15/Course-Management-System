@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar.js';
 import BasicTabs from '../components/Tab.js';
 import { Box, IconButton } from '@mui/material';
-import HelpIcon from '@mui/icons-material/Help';
-import CoursesPage from './Courses.js';
 
 function SchedulePage() {
   const [showSidebar, setShowSidebar] = useState(false);

@@ -5,6 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import { useLocation } from 'react-router-dom';
 import videoBg from './video/vt_course_video.mp4';
+import scheduleImage from '../../images/help_schedule.PNG';
+import courseImage from '../../images/help_course.PNG';
+import chatbotImage from '../../images/help_chatbot.PNG';
 
 function Student(props) {
     const location = useLocation(); // Get the location object
@@ -36,11 +39,18 @@ function Student(props) {
                     <p>Navigate our resourses using the Sidebar Menu</p>
                 </div>
 
-        
+                <div className="img-wrapper"> {/* New wrapper div */}
+                    <div className="img-container">
+                        <img src={scheduleImage} alt="Schedule" className="homepage-image" />
+                        <img src={courseImage} alt="Course" className="homepage-image" />
+                        <img src={chatbotImage} alt="Chatbot" className="homepage-image" />
+                    </div>
+                </div>
             </div>
-            
+
         </>
     );
 }
 
 export default Student;
+

@@ -792,7 +792,7 @@ function CoursesSearch() {
     ];
 
     const boxStyle = {
-        backgroundColor: 'beige',
+        backgroundColor: '#ededed',
         textAlign: 'center',
         padding: '20px',
     };
@@ -1005,7 +1005,7 @@ function CoursesSearch() {
                     </Button>{' '}
                     <Button className='reset-button'
                         variant="primary"
-                        style={{ margin: '10px', backgroundColor: 'orange' }}
+                        style={{ margin: '10px', backgroundColor: 'rgb(229, 117, 31)' }}
                         onClick={handleClickReset}>
                         Reset
                     </Button>{' '}

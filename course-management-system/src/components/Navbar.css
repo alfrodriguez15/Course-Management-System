@@ -25,7 +25,23 @@
 
 .nav-item {
     height: 50px;
-    /* height: 100%; */
+
+    font-family: 'Roboto', sans-serif;
+}
+
+.nav-item-2 {
+    position: absolute;
+    /* Set position to absolute */
+    right: 1px;
+    height: 50px;
+
+    font-family: 'Roboto', sans-serif;
+}
+
+.nav-item-2:last-child .nav-link {
+    border: 1px solid #fff;
+    /* Add border to the last nav-link */
+    padding: 0.4rem 1rem;
 }
 
 .nav-link {
@@ -41,7 +57,7 @@
     background-color: rgb(160, 43, 82);
     color: #fff;
     transition: all 0.2s ease-out;
-    
+
 }
 
 .navbar-2 {
@@ -54,25 +70,25 @@
     position: sticky;
     top: 0;
     z-index: 999;
-    padding: 0 20px; 
+    padding: 0 20px;
     border: 1px solid rgb(160, 43, 82);
 }
 
 .navbar-logo {
-    width: 85px; 
-    height: auto; 
+    width: 85px;
+    height: auto;
 }
 
 .nav-menu-2 {
     display: flex;
-    justify-content: flex-end; 
+    justify-content: flex-end;
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
 .nav-link-2 {
-    color:  rgb(134, 31, 65);
+    color: rgb(134, 31, 65);
     display: flex;
     align-items: center;
     text-decoration: none;

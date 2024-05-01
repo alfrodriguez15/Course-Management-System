@@ -34,13 +34,15 @@ function Navbar() {
                         </Link>
                     </li>
                     {/* Sign in */}
-                    <li className='nav-item'>
+                    <li className='nav-item-2'>
                         <Link to='/login' className='nav-link'>
                             Login
                         </Link>
                     </li>
                 </ul>
+                
             </nav>
+            
 
             {/* Second Navbar */}
             <nav className='navbar-2'>
