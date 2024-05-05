@@ -3,7 +3,7 @@ from flask_cors import CORS, cross_origin
 from flask_jsonpify import jsonpify
 from pymongo import MongoClient
 from parse_udc import search_by_course_prof
-from scrape_rmp import get_professors_by_school_and_name, get_stats_for_prof
+from scrape_rmp import get_professors_by_name, get_prof_stats
 from vtt import *
 import os
 import google.generativeai as genai
@@ -369,9 +369,9 @@ def getRMPData():
     prof_name = prof.split(" ")
     search_name = prof_name[0][0] + " " + prof_name[-1]
 
-    prof_id = get_professors_by_school_and_name(1349, search_name)
+    prof_id = get_professors_by_name(search_name)
 
-    stats = get_stats_for_prof(prof_id, prof, "Virginia Tech")
+    stats = get_prof_stats(prof_id, prof)
     return jsonpify(stats)
 
 @app.route("/submitfeedback", methods=["POST"])
