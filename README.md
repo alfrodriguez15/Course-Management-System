@@ -1,5 +1,6 @@
 # Course-Management-System
-Course Management System Project for Software Engineering Capstone CS 4704.
+VT Course Management System Project for Software Engineering Capstone CS 4704.\
+Group 8: Jenny Tran, Jen Hoang, Daniel Park, Alfredo Rodriguez, Sarah Coffman
 
 # Installation
 
