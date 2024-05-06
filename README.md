@@ -8,9 +8,9 @@ Group 8: Jenny Tran, Jen Hoang, Daniel Park, Alfredo Rodriguez, Sarah Coffman
   > git clone https://github.com/alfrodriguez15/Course-Management-System.git
 
 - Install packages and requirements:
-  > cd ./course-management-system
-  > npm install
-  > cd .\./backend-2
+  > cd ./course-management-system\
+  > npm install\
+  > cd .\./backend-2\
   > pip install -r requirements.txt
 
 # Run Locally
@@ -18,7 +18,7 @@ Group 8: Jenny Tran, Jen Hoang, Daniel Park, Alfredo Rodriguez, Sarah Coffman
 - Run backend (from backend-2 directory)
   > python app.py
 - Run frontend (in another terminal from course-management-system directory)
-  > npm start
+  > npm start\
   > Launch localhost:\[port number]
 
 # References
