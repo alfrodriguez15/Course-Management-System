@@ -5,8 +5,7 @@ from bs4 import BeautifulSoup
 
 def get_professors_by_name(professor_name: str):
     professor_name.replace(' ', '+')
-    url = "https://www.ratemyprofessors.com" \
-          "/search/professors/1349?q=%s" % (professor_name)
+    url = "https://www.ratemyprofessors.com/search/professors/1349?q=%s" % professor_name
     page = ""
     # Repeat requests until a valid response (status code 200) is received
     while(str(page) != "<Response [200]>"):
