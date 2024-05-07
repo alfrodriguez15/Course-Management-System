@@ -22,4 +22,6 @@ Group 8: Jenny Tran, Jen Hoang, Daniel Park, Alfredo Rodriguez, Sarah Coffman
   > Launch localhost:\[port number]
 
 # References
-
+- Utilized VT-Timetable API
+  > Documentation: https://leodiperna.com/vt-timetable-documentation#Course.get_modality
+  > Github: https://github.com/dipernalz/vt-timetable
